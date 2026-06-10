@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Weather Prediction Model & Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="color-scheme" content="light dark" />
+
+  <link rel="preload" href="./css/adminlte.css" as="style" />
+  <link rel="stylesheet" href="/dash/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+    integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous"
+    media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./css/adminlte.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
+    integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
+
+    <!-- Table data -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.8/css/dataTables.bootstrap5.css" crossorigin="anonymous" />
+   
+
+
+ 
+
+  <style>
+    .field-error {
+      font-size: 12px;
+      color: #dc3545;
+      margin-top: 0;
+      margin-bottom: 4px;
+      display: none;
+      font-weight: 500;
+    }
+    .field-error.show { display: block; }
+    input.input-invalid, select.input-invalid {
+      border-color: #dc3545 !important;
+      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15) !important;
+    }
+    input.input-valid, select.input-valid {
+      border-color: #198754 !important;
+      box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15) !important;
+    }
+    .user-form { padding: 1.5rem; }
+  </style>
+</head>
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<div class="app-wrapper">
+
+  <!-- Header -->
+  <nav class="app-header navbar navbar-expand bg-body">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+            <i class="bi bi-list"></i>
+          </a>
+        </li>
+        <li class="nav-item d-none d-md-block">
+          <a href="./index.html" class="nav-link"><i class="bi bi-grid-1x2 me-1"></i> Live preview</a>
+        </li>
+        <li class="nav-item d-none d-md-block">
+          <a href="./docs/introduction.html" class="nav-link"><i class="bi bi-book me-1"></i> Documentation</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="navbar-search" href="#" role="button"><i class="bi bi-search"></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-lte-toggle="fullscreen">
+            <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
+            <i data-lte-icon="minimize" class="bi bi-fullscreen-exit d-none"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="#" id="bd-theme" aria-label="Toggle color scheme"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-sun-fill" data-lte-theme-icon="light"></i>
+            <i class="bi bi-moon-fill d-none" data-lte-theme-icon="dark"></i>
+            <i class="bi bi-circle-half d-none" data-lte-theme-icon="auto"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme" style="--bs-dropdown-min-width:8rem">
+            <li><button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false"><i class="bi bi-sun-fill me-2"></i> Light <i class="bi bi-check-lg ms-auto d-none"></i></button></li>
+            <li><button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false"><i class="bi bi-moon-fill me-2"></i> Dark <i class="bi bi-check-lg ms-auto d-none"></i></button></li>
+            <li><button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true"><i class="bi bi-circle-half me-2"></i> Auto <i class="bi bi-check-lg ms-auto d-none"></i></button></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown user-menu">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <img src="./assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User Image" />
+            <span class="d-none d-md-inline">Alexander Pierce</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+            <li class="user-header text-bg-primary">
+              <img src="./assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="User Image" />
+              <p>Alexander Pierce - Web Developer <small>Member since Nov. 2023</small></p>
+            </li>
+            <li class="user-footer">
+              <a href="#" class="btn btn-outline-secondary">Profile</a>
+              <a href="#" class="btn btn-outline-danger float-end">Sign out</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="app-sidebar shadow" data-bs-theme="dark">
+    <div class="sidebar-brand">Weather <br> Prediction Model</div>
+    <div class="sidebar-wrapper">
+      <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview"
+        role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
+
+        <li class="nav-item menu-open dash">
+          <a href="./index.html" class="nav-link active">
+            <i class="nav-icon bi bi-speedometer2"></i><p>Dashboard</p>
+          </a>
+        </li>
+
+        <!-- Weather Data with submenu -->
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon bi bi-cloud-sun-fill"></i>
+            <p>
+              Weather Data
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="user-form.html" class="nav-link active">
+                <i class="nav-icon bi bi-plus-circle"></i>
+                <p>Add Weather Data</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="update-weather.html" class="nav-link">
+                <i class="nav-icon bi bi-pencil-square"></i>
+                <p>Update Weather Data</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="view-weather.html" class="nav-link" onclick="getData()">
+                <i class="nav-icon bi bi-eye"></i>
+                <p>View Weather Data</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item"><a href="weather-prediction.html" class="nav-link"><i class="nav-icon bi bi-graph-up-arrow"></i><p>Prediction</p></a></li>
+        <li class="nav-item"><a href="weather-by-day.html" class="nav-link"><i class="nav-icon bi bi-calendar-day"></i><p>Weather by Day</p></a></li>
+        <li class="nav-item"><a href="weather-by-month.html" class="nav-link"><i class="nav-icon bi bi-calendar-month"></i><p>Weather by Month</p></a></li>
+        <li class="nav-item"><a href="weather-by-region.html" class="nav-link"><i class="nav-icon bi bi-globe"></i><p>Weather by Region</p></a></li>
+        <li class="nav-item"><a href="charts.html" class="nav-link"><i class="nav-icon bi bi-bar-chart-line"></i><p>Charts</p></a></li>
+        <li class="nav-item"><a href="reports.html" class="nav-link"><i class="nav-icon bi bi-file-earmark-text"></i><p>Report</p></a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="app-main">
+    <div class="app-content-header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6"><h3 class="mb-0">Dashboard</h3></div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-end">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-content">
+      <div class="container-fluid">
+
+        <!-- Info Boxes -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon text-bg-primary shadow-sm"><i class="bi bi-gear-fill"></i></span>
+              <div class="info-box-content"><span class="info-box-text">CPU Traffic</span><span class="info-box-number">10 <small>%</small></span></div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon text-bg-danger shadow-sm"><i class="bi bi-hand-thumbs-up-fill"></i></span>
+              <div class="info-box-content"><span class="info-box-text">Likes</span><span class="info-box-number">41,410</span></div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon text-bg-success shadow-sm"><i class="bi bi-cart-fill"></i></span>
+              <div class="info-box-content"><span class="info-box-text">Sales</span><span class="info-box-number">760</span></div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon text-bg-warning shadow-sm"><i class="bi bi-people-fill"></i></span>
+              <div class="info-box-content"><span class="info-box-text">New Members</span><span class="info-box-number">2,000</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weather Form Card -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card user-form-card">
+              <div class="card-header"><h3 class="card-title">Weather Input Form</h3></div>
+              <div class="card-body">
+
+              
+
+                <table id="example" class="table table-striped">
+                  <div id="connected"></div>
+        <thead>
+            <tr>
+          <th>Precipitation (mm)</th>
+<th>Maximum Temperature (°C)</th>
+<th>Minimum Temperature (°C)</th>
+<th>Wind Speed (km/h)</th>
+<th>Year</th>
+<th>Month</th>
+<th>Day</th>
+<th>Weather</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            
+            <!-- <tr>
+                <td>Garrett Winters</td>
+                <td>Accountant</td>
+                <td>Tokyo</td>
+                <td>63</td>
+                <td>2011-07-25</td>
+                <td>$170,750</td>
+            </tr> -->
+         
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Precipitation</th>
+                <th>Maximum Temperature</th>
+                <th>Minimum Temperature</th>
+                <th>Wind Speed</th>
+                <th>Year</th>
+                <th>Month</th>
+                 <th>Day</th>
+                <th>Weather</th>
+            </tr>
+        </tfoot>
+    </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="float-end d-none d-sm-inline">Anything you want</div>
+    <strong>Copyright &copy; 2014-2026 <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.</strong>
+    All rights reserved.
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script src="./js/adminlte.js"></script>
+
+<script>
+  const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+  document.addEventListener('DOMContentLoaded', function () {
+    const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+    const isMobile = window.innerWidth <= 992;
+    if (sidebarWrapper && OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined && !isMobile) {
+      OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+        scrollbars: { theme: 'os-theme-light', autoHide: 'leave', clickScroll: true },
+      });
+    }
+  });
+</script>
+
+<script>
+  (() => {
+    'use strict';
+    const STORAGE_KEY = 'lte-theme';
+    const getStoredTheme = () => localStorage.getItem(STORAGE_KEY);
+    const setStoredTheme = (t) => localStorage.setItem(STORAGE_KEY, t);
+    const prefersDark = () => globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
+    const getPreferredTheme = () => { const s = getStoredTheme(); return s || (prefersDark() ? 'dark' : 'light'); };
+    const setTheme = (t) => {
+      const r = t === 'auto' ? (prefersDark() ? 'dark' : 'light') : t;
+      document.documentElement.setAttribute('data-bs-theme', r);
+    };
+    setTheme(getPreferredTheme());
+    const showActiveTheme = (theme) => {
+      document.querySelectorAll('[data-bs-theme-value]').forEach((el) => {
+        el.classList.remove('active'); el.setAttribute('aria-pressed', 'false');
+        const c = el.querySelector('.bi-check-lg'); if (c) c.classList.add('d-none');
+      });
+      const active = document.querySelector(`[data-bs-theme-value="${theme}"]`);
+      if (active) {
+        active.classList.add('active'); active.setAttribute('aria-pressed', 'true');
+        const c = active.querySelector('.bi-check-lg'); if (c) c.classList.remove('d-none');
+      }
+      document.querySelectorAll('[data-lte-theme-icon]').forEach((icon) => {
+        icon.classList.toggle('d-none', icon.dataset.lteThemeIcon !== theme);
+      });
+    };
+    globalThis.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      const s = getStoredTheme(); if (!s || s === 'auto') setTheme(getPreferredTheme());
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      showActiveTheme(getPreferredTheme());
+      document.querySelectorAll('[data-bs-theme-value]').forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+          const t = toggle.getAttribute('data-bs-theme-value');
+          setStoredTheme(t); setTheme(t); showActiveTheme(t);
+        });
+      });
+    });
+  })();
+</script>
+
+<script>
+  function clearField(id) {
+    document.getElementById(id).classList.remove('input-invalid', 'input-valid');
+    const err = document.getElementById('err-' + id);
+    err.textContent = '';
+    err.classList.remove('show');
+  }
+
+  function ok(id) {
+    document.getElementById(id).classList.remove('input-invalid');
+    document.getElementById(id).classList.add('input-valid');
+    const err = document.getElementById('err-' + id);
+    err.textContent = '';
+    err.classList.remove('show');
+  }
+
+  function fail(id, msg) {
+    document.getElementById(id).classList.remove('input-valid');
+    document.getElementById(id).classList.add('input-invalid');
+    const err = document.getElementById('err-' + id);
+    err.textContent = msg;
+    err.classList.add('show');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    ['precipitation', 'tempMax', 'tempMin', 'windSpeed'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => clearField(id));
+    });
+    ['year', 'month', 'day', 'weather'].forEach(id => {
+      document.getElementById(id).addEventListener('change', () => clearField(id));
+    });
+  });
+
+  async function submitPrediction() {
+    let valid = true;
+
+    document.getElementById('alert-success').classList.add('d-none');
+    document.getElementById('alert-error').classList.add('d-none');
+
+    const prec = document.getElementById('precipitation').value;
+    if (prec === '') { fail('precipitation', 'Precipitation is required.'); valid = false; }
+    else if (parseFloat(prec) < 0) { fail('precipitation', 'Must be 0 or greater.'); valid = false; }
+    else ok('precipitation');
+
+    const tmax = document.getElementById('tempMax').value;
+    const tmin = document.getElementById('tempMin').value;
+
+    if (tmax === '') { fail('tempMax', 'Temp Max is required.'); valid = false; }
+    else if (tmin !== '' && parseFloat(tmax) <= parseFloat(tmin)) { fail('tempMax', 'Must be greater than Temp Min.'); valid = false; }
+    else ok('tempMax');
+
+    if (tmin === '') { fail('tempMin', 'Temp Min is required.'); valid = false; }
+    else if (tmax !== '' && parseFloat(tmin) >= parseFloat(tmax)) { fail('tempMin', 'Must be less than Temp Max.'); valid = false; }
+    else ok('tempMin');
+
+    const wind = document.getElementById('windSpeed').value;
+    if (wind === '') { fail('windSpeed', 'Wind speed is required.'); valid = false; }
+    else if (parseFloat(wind) < 0) { fail('windSpeed', 'Must be 0 or greater.'); valid = false; }
+    else ok('windSpeed');
+
+    const yr = document.getElementById('year').value;
+    if (yr === '') { fail('year', 'Please select a year.'); valid = false; }
+    else ok('year');
+
+    const mo = document.getElementById('month').value;
+    if (mo === '') { fail('month', 'Please select a month.'); valid = false; }
+    else ok('month');
+
+    const dy = document.getElementById('day').value;
+    if (dy === '') { fail('day', 'Please select a day.'); valid = false; }
+    else ok('day');
+
+    const weather = document.getElementById('weather').value;
+    if (weather === '') { fail('weather', 'Please select a weather type.'); valid = false; }
+    else ok('weather');
+
+    if (!valid) {
+      document.getElementById('alert-error').classList.remove('d-none');
+      return;
+    }
+
+    const userdata = {
+      precipitation: prec,
+      tempMax:       tmax,
+      tempMin:       tmin,
+      windSpeed:     wind,
+      year:          yr,
+      month:         mo,
+      day:           dy,
+      weather:       weather,
+    };
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/user-data/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userdata),
+      });
+      if (response.ok) {
+        document.getElementById('alert-success').classList.remove('d-none');
+      } else {
+        const error = await response.json();
+        console.log('FastAPI Error:', JSON.stringify(error, null, 2));
+        alert('Error: ' + JSON.stringify(error.detail));
+      }
+    } catch (error) {
+      console.error('Connection Failed', error);
+      alert('Could not connect to API. Is FastAPI running?');
+    }
+  }
+
+  // taable data Booot
+  
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.3.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.3.8/js/dataTables.bootstrap5.js"></script>
+<script>
+  // $('#example').DataTable();
+</script>
+
+<!-- fetch data LOGICS -->
+ <script>
+  
+const getData = async()  => {
+  try{
+  // event.preventDefault()  // stop navigation first
+  const response=await fetch("http://127.0.0.1:8000/weather-data/",{
+    method:"GET",
+    // headers:{
+      // "Content-Type":"application/json",
+      // "Authorization":`Bearer {token}`
+    // }
+  })
+  if(response.ok){
+   const result=await response.json();
+   let rows = ""; // 
+   for (let key of result){
+    rows +=
+
+    `<tr>
+      <td>${key['1']}</td>
+      <td>${key['2']}</td>
+      <td>${key['3']}</td>
+      <td>${key['4']}</td>
+      <td>${key['5']}</td>
+      <td>${key['6']}</td>
+      <td>${key['7']}</td>
+      <td>${key['8']}</td>
+      </tr>`
+         
+
+   }
+   document.getElementsByTagName("tbody")[0].innerHTML=rows;
+   $('#example').DataTable();
+   
+    }
+
+
+  }
+  catch(er){
+    alert("Error occured",+er)
+  }
+}
+
+getData()
+ </script>
+</body>
+</html>
