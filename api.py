@@ -6,8 +6,12 @@ from pydantic import BaseModel
 import joblib as job
 import pandas as pd
 import numpy as np
+import requests
 import io
+from dotenv import load_dotenv
+import os
 from fastapi import UploadFile, File
+from fastapi import HTTPException
 
 # load model
 model=job.load("model.joblib")
@@ -80,20 +84,28 @@ def updateWeather(id: int,update: updateData):
 
 
     """;
-    cursor.execute(query,(
-       update.precipitation,
-    update.max_temp,
-   update.min_temp,
-  update.wind_speed,
-update.year,
-   update.month,
-update.day,
-    update.weather,
-    id))
-    conn.commit()
-    return{
-        "message":"updated"
-    }
+    if update.min_temp>update.max_temp:
+            raise HTTPException(status_code=500,detail="Max Temp must be greater than Min Temp")
+    try:
+        cursor.execute(query,(
+        update.precipitation,
+        update.max_temp,
+        update.min_temp,
+        update.wind_speed,
+        update.year,
+        update.month,
+        update.day,
+            update.weather,
+            id))
+        
+        conn.commit()
+        return{
+                "message":"updated"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500,detail=str(e))
+
+
 
 # POST method-----------------------------------------***************--------------------->
 
@@ -101,11 +113,19 @@ update.day,
 async def weatherData(data:WeatherData):
     insert="insert into weather_table (precipitation,temp_max,temp_min,wind,year,month,day,weather) values(%s,%s,%s,%s,%s,%s,%s,%s)"
     values=(data.precipitation,data.tempMax,data.tempMin,data.windSpeed,data.year,data.month,data.day,data.weather)
-    cursor.execute(insert,values)
-    conn.commit()
-    return{
+    if data.tempMax<data.tempMin:
+        raise HTTPException(status_code=400,detail="Max Temp must be greater than Min Temp")
+    try:
+     cursor.execute(insert,values)
+    
+   
+     conn.commit()
+     return{
         "Precipitation":data.precipitation,
-    }
+        }
+    except Exception as error:
+         raise HTTPException(status_code=500,detail=str(error))
+
 
 
 # GET method---Fetch data------------------------>------------------------------------------->
@@ -124,13 +144,18 @@ async def getWeatherdata():
 @app.delete('/weather-data/{id}')
 async def deleteData(id:int):
     delete="delete from weather_table where id=%s"
-    cursor.execute(delete,(id,))
-    conn.commit()
+    try:
+        cursor.execute(delete,(id,))
+        conn.commit()
 
-    return {
+        return {
         "Message":"Deleted"
 
-    }
+           }
+    except Exception as e:
+        raise HTTPException(status_code=500,detail=str(e))
+
+
 
 
 # UPLOAD------------------------------POST VIA UPLOAD-------------------------------------------->
@@ -167,11 +192,14 @@ async def upload(file: UploadFile = File(...)):
         weather=records['Weather']
         
         values=(precipitation,max_temp,min_temp,wind_speed,year,month,day,weather)
-        cursor.execute(insertUploaded,values)
-    conn.commit()
-    return{
-        "Message":"Added Successfully"
-    }
+        try:
+            cursor.execute(insertUploaded,values)
+            conn.commit()
+            return{
+                "Message":"Added Successfully"
+            }
+        except Exception as error:
+            raise HTTPException(status_code=500,detail=str(error))
 
 
 
@@ -215,8 +243,30 @@ async def predictionInput(userData:predictionData):
   
 
     
+# Get weather data-----------------------------*******WEAther data************************----------------------->
+load_dotenv()
+apiKey=os.getenv("weatherAPIKey")
+Base="https://api.weatherapi.com/v1"
+endpoint="/current.json"
+@app.get('/current.json')
+def getWeatherdata(region:str):
+    url=Base+endpoint
+    headers={
+        "Accept":"application/json"
+    }
+    params={
+        "key":apiKey,
+         "q":region
 
-        
+    }
+    try:
+        response=requests.get(url,params=params,headers=headers)
+        results=response.json()
+        return results
+    except Exception as e:
+        raise HTTPException(status_code=500,detail=str(e))
+
+
 
     # MOUNT BOOTSTRAP
 app.mount("/dash", StaticFiles(directory="dash"), name="dash")
