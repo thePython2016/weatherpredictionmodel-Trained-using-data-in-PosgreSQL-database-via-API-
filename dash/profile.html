@@ -239,16 +239,13 @@
 
         <div class="sidebar-wrapper">
           <nav class="mt-2">
-            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview"
-              role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
-
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
               <li class="nav-item menu-open">
                 <a href="index.html" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>Dashboard</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-journal-text"></i>
@@ -272,43 +269,42 @@
                   </li>
                 </ul>
               </li>
-
               <li class="nav-item">
                 <a href="weather-prediction.html" class="nav-link">
-                  <i class="nav-icon bi bi-graph-up"></i><p>Prediction</p>
+                  <i class="nav-icon bi bi-graph-up"></i>
+                  <p>Prediction</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="weather-by-day.html" class="nav-link">
-                  <i class="nav-icon bi bi-sun"></i><p>Weather by day</p>
+                  <i class="nav-icon bi bi-sun"></i>
+                  <p>Weather by day</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="weather-by-month.html" class="nav-link">
-                  <i class="nav-icon bi bi-calendar3"></i><p>Weather by Month</p>
+                  <i class="nav-icon bi bi-calendar3"></i>
+                  <p>Weather by Month</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="weather-by-region.html" class="nav-link">
-                  <i class="nav-icon bi bi-globe2"></i><p>Weather by Region</p>
+                  <i class="nav-icon bi bi-globe2"></i>
+                  <p>Weather by Region</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="charts.html" class="nav-link">
-                  <i class="nav-icon bi bi-bar-chart-line"></i><p>Charts</p>
+                  <i class="nav-icon bi bi-bar-chart-line"></i>
+                  <p>Charts</p>
                 </a>
               </li>
-
               <li class="nav-item">
-                <a href="report.html" class="nav-link">
-                  <i class="nav-icon bi bi-file-earmark-text"></i><p>Reports</p>
+                <a href="reports.html" class="nav-link">
+                  <i class="nav-icon bi bi-file-earmark-text"></i>
+                  <p>Reports</p>
                 </a>
               </li>
-
             </ul>
           </nav>
 
@@ -331,7 +327,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="settings.html">
+                  <a href="#">
                     <i class="bi bi-gear"></i> Settings
                   </a>
                 </li>
@@ -384,7 +380,44 @@
           <div class="container-fluid">
 
             <!-- Info Boxes -->
-            <div><hr></div>
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon text-bg-primary shadow-sm"><i class="bi bi-gear-fill"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">CPU Traffic</span>
+                    <span class="info-box-number">10 <small>%</small></span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon text-bg-danger shadow-sm"><i class="bi bi-hand-thumbs-up-fill"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Likes</span>
+                    <span class="info-box-number">41,410</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon text-bg-success shadow-sm"><i class="bi bi-cart-fill"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">Sales</span>
+                    <span class="info-box-number">760</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box">
+                  <span class="info-box-icon text-bg-warning shadow-sm"><i class="bi bi-people-fill"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text">New Members</span>
+                    <span class="info-box-number">2,000</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <!-- FORM CARD -->
             <div class="row">
@@ -410,12 +443,10 @@
                         <i class="bi bi-exclamation-circle-fill me-2"></i> Please select a region.
                       </div>
 
-                      <div class="row g-4 align-items-start">
-
-                        <!-- LEFT: Search Form -->
-                        <div class="col-md-5">
+                      <div class="row g-3 mb-4">
+                        <div class="col-md-6">
                           <label for="region" class="form-label fw-semibold">Select Region</label>
-                          <select class="form-select mb-3" id="region">
+                          <select class="form-select" id="region">
                             <option value="">-- Select Region --</option>
                             <option value="Arusha">Arusha</option>
                             <option value="Dar es Salaam">Dar es Salaam</option>
@@ -451,17 +482,14 @@
                           </select>
                           <div class="invalid-feedback">Please select a region.</div>
                           <div class="valid-feedback">Looks good.</div>
-                          <button type="button" class="btn btn-primary w-100" onclick="getWeather()">
-                            <i class="bi bi-search me-2"></i> Check Weather
-                          </button>
                         </div>
-
-                        <!-- RIGHT: Weather Results -->
-                        <div class="col-md-7">
-                          <div id="returned"></div>
-                        </div>
-
                       </div>
+
+                      <div id="returned"></div>
+
+                      <button type="button" class="btn btn-primary" onclick="getWeather()">
+                        <i class="bi bi-search me-2"></i> Check
+                      </button>
 
                     </form>
                   </div>
@@ -607,59 +635,10 @@
             },
           });
 
-          if (response.status==200) {
+          if (response.ok) {
             const getData = await response.json();
-            // alert(getData)
-            document.getElementById("returned").innerHTML = `
-              <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white d-flex align-items-center gap-2">
-                  <i class="bi bi-cloud-sun-fill fs-5"></i>
-                  
-                  <span class="ms-auto small opacity-75">${getData.location.name}</span>
-                </div>
-                <div class="card-body p-0">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span><i class="bi bi-thermometer-half text-danger me-2"></i> Temperature</span>
-                      <span><strong>${getData.current.temp_c}°C</strong> / ${getData.current.temp_f}°F</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span><i class="bi bi-wind text-info me-2"></i> Wind Direction</span>
-                      <span><strong>${getData.current.wind_dir}</strong></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span><i class="bi bi-speedometer2 text-warning me-2"></i> Pressure</span>
-                      <span><strong>${getData.current.pressure_mb} mb</strong> / ${getData.current.pressure_in} in</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span><i class="bi bi-cloud-drizzle text-primary me-2"></i> Precipitation</span>
-                      <span><strong>${getData.current.precip_mm} mm</strong> / ${getData.current.precip_in} in</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span><i class="bi bi-droplet-half text-info me-2"></i> Humidity</span>
-                      <span><strong>${getData.current.humidity}%</strong></span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                      <span><i class="bi bi-cloud text-secondary me-2"></i> Cloud Cover</span>
-                      <span><strong>${getData.current.cloud}%</strong></span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            `;
-          } else {
-            document.getElementById("returned").innerHTML = `
-              <div class="alert alert-danger">
-                <i class="bi bi-exclamation-circle-fill me-2"></i>
-                Error ${response.status}: ${response.statusText}
-              </div>`;
           }
         } catch (error) {
-          document.getElementById("returned").innerHTML = `
-            <div class="alert alert-danger">
-              <i class="bi bi-wifi-off me-2"></i>
-              Request failed: ${error.message}
-            </div>`;
           console.log(`Error occurred: ${error}`);
         }
       };

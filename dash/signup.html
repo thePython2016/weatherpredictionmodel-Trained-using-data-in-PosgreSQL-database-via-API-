@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- LEFT -->
+  <div class="left">
+    <div></div>
+  </div>
+
+  <!-- VERTICAL DIVIDER -->
+  <div class="divider-v"></div>
+
+  <!-- RIGHT -->
+  <div class="right">
+
+    <h1 class="form-title">Create an account</h1>
+    <p class="form-sub">Fill in your details below to get started.</p>
+
+    <form id="registerForm" novalidate >
+
+      <!-- Name row -->
+      <div class="row-2">
+        <div class="field-wrap">
+          <label class="field-label" for="fname">First name</label>
+          <div class="input-row">
+            <input type="text" id="fname" name="fname" placeholder="John" />
+          </div>
+        </div>
+        <div class="field-wrap">
+          <label class="field-label" for="lname">Last name</label>
+          <div class="input-row">
+            <input type="text" id="lname" name="lname" placeholder="Doe" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="field-wrap">
+        <label class="field-label" for="email">Email</label>
+        <div class="input-row">
+          <input type="email" id="email" name="email" placeholder="hello@example.com" />
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="field-wrap">
+        <label class="field-label" for="phone">Phone number</label>
+        <div class="input-row">
+          <input type="tel" id="phone" name="phone" placeholder="+255 700 000 000" />
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="field-wrap">
+        <label class="field-label" for="address">Address</label>
+        <div class="input-row">
+          <input type="text" id="address" name="address" placeholder="123 Main St, Mwanza" />
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="field-wrap">
+        <label class="field-label" for="pwd">Password</label>
+        <div class="input-row">
+          <input type="password" id="pwd" name="pwd" placeholder="Min. 8 characters"
+                 oninput="checkPwd()" />
+          <button type="button" class="eye-btn" onclick="togglePwd('pwd', 'eye1')" aria-label="Toggle password">
+            <i class="ti ti-eye" id="eye1"></i>
+          </button>
+        </div>
+        <p class="hint" id="pwd-hint"></p>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="field-wrap">
+        <label class="field-label" for="pwd2">Confirm password</label>
+        <div class="input-row">
+          <input type="password" id="pwd2" name="pwd2" placeholder="Repeat your password"
+                 oninput="checkMatch()" />
+          <button type="button" class="eye-btn" onclick="togglePwd('pwd2', 'eye2')" aria-label="Toggle confirm password">
+            <i class="ti ti-eye" id="eye2"></i>
+          </button>
+        </div>
+        <p class="hint" id="match-hint"></p>
+      </div>
+
+      <button type="submit" class="submit-btn">Create account</button>
+
+    </form>
+
+    <p class="login-row">Already have an account? <a href="signin.html">Sign in</a></p>
+
+  </div>
+
+</div>
+
+<script>
+  function togglePwd(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'ti ti-eye-off';
+    } else {
+      input.type = 'password';
+      icon.className = 'ti ti-eye';
+    }
+  }
+
+  function checkPwd() {
+    const pwd  = document.getElementById('pwd');
+    const hint = document.getElementById('pwd-hint');
+    const val  = pwd.value;
+
+    if (val.length === 0) {
+      pwd.className = ''; hint.className = 'hint'; return;
+    }
+    if (val.length < 8) {
+      pwd.className = 'error';
+      hint.className = 'hint show err';
+      hint.textContent = 'Password must be at least 8 characters';
+    } else {
+      pwd.className = 'success';
+      hint.className = 'hint show ok';
+      hint.textContent = 'Password looks good';
+    }
+    checkMatch();
+  }
+
+  function checkMatch() {
+    const pwd  = document.getElementById('pwd').value;
+    const pwd2 = document.getElementById('pwd2');
+    const hint = document.getElementById('match-hint');
+    const val  = pwd2.value;
+
+    if (val.length === 0) {
+      pwd2.className = ''; hint.className = 'hint'; return;
+    }
+    if (val !== pwd) {
+      pwd2.className = 'error';
+      hint.className = 'hint show err';
+      hint.textContent = 'Passwords do not match';
+    } else {
+      pwd2.className = 'success';
+      hint.className = 'hint show ok';
+      hint.textContent = 'Passwords match';
+    }
+  }
+
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevent default page reload
+
+    const fname   = document.getElementById('fname').value.trim();
+    const lname   = document.getElementById('lname').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const phone   = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const pwd     = document.getElementById('pwd').value;
+    const pwd2    = document.getElementById('pwd2').value;
+
+    if (!fname || !lname || !email || !phone || !address || !pwd || !pwd2) {
+      alert('Please fill in all fields.'); return;
+    }
+    if (pwd.length < 8) {
+      alert('Password must be at least 8 characters.'); return;
+    }
+    if (pwd !== pwd2) {
+      alert('Passwords do not match.'); return;
+    }
+    else{
+    const accountData = {
+      fname:fname,
+      lname:lname,
+      email:email,
+      phone:phone,
+      address:address,
+      pwd:pwd
+    };
+
+    const base     = 'http://127.0.0.1:8000';
+    const endpoint = '/user-account/';
+
+    try {
+      const response = await fetch(`${base}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(accountData)  // Send the data
+      });
+
+      if (response.ok) {
+        const created=await response.json()
+        document.getElementById("createdResult").innerHTML=``
+      } else {
+        alert(`Server errors: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error occurred:', error);
+      alert('Could not connect to the server. Please try again.');
+    }
+  }
+  });
+</script>
+
+</body>
+</html>

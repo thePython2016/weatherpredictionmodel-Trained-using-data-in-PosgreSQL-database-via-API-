@@ -6,6 +6,7 @@ from pydantic import BaseModel
 import joblib as job
 import pandas as pd
 import numpy as np
+from fastapi.responses import JSONResponse
 import requests
 import io
 from dotenv import load_dotenv
@@ -149,9 +150,12 @@ async def deleteData(id:int):
         conn.commit()
 
         return {
-        "Message":"Deleted"
+      
+        
+            "Deleted":"Successfully Deleted"
 
-           }
+      
+        }
     except Exception as e:
         raise HTTPException(status_code=500,detail=str(e))
 
@@ -266,6 +270,39 @@ def getWeatherdata(region:str):
     except Exception as e:
         raise HTTPException(status_code=500,detail=str(e))
 
+
+
+# Create user account--------------------------------------------******************************************---------------------------------->
+endpointAccount="/user-account/"
+class useraccount(BaseModel):
+    fname: str
+    lname: str
+    email:str
+    phone:str
+    address:str
+    pwd: str
+
+@app.post(endpointAccount)
+
+async def accountdata(account:useraccount):
+    try:
+        insert="insert into useraccount(fname,lname,email,phone,address,pwd) values(%s,%s,%s,%s,%s,%s)"
+        values=(account.fname,account.lname,account.email,account.phone,account.address,account.pwd)
+        cursor.execute(insert,values)
+        conn.commit()
+        return JSONResponse (status_code=201,
+                             content={"Success":"Data Sumitted Sucessfully"}
+            
+        )
+
+    
+    except Exception as e:
+        conn.rollback() 
+        raise HTTPException(status_code=500,detail=str(e))
+
+   
+
+# cursor.execute(insert,values)
 
 
     # MOUNT BOOTSTRAP

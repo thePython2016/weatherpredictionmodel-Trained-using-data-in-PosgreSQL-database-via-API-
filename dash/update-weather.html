@@ -12,6 +12,7 @@
     <meta name="description" content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS." />
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="./css/adminlte.css" as="style" />
+      <link rel="stylesheet" href="css/style.css" />
 
     <!-- Fonts -->
     <link rel="stylesheet"
@@ -84,132 +85,7 @@
                 <i class="bi bi-book me-1" aria-hidden="true"></i> Documentation
               </a>
             </li>
-          </ul>
-
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i class="bi bi-search"></i>
-              </a>
-            </li>
-
-            <!-- Messages Dropdown -->
-            <li class="nav-item dropdown">
-              <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                <i class="bi bi-chat-text"></i>
-                <span class="navbar-badge badge text-bg-danger">3</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <a href="#" class="dropdown-item">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <img src="./assets/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3" />
-                    </div>
-                    <div class="flex-grow-1">
-                      <h3 class="dropdown-item-title">Brad Diesel <span class="float-end fs-7 text-danger"><i class="bi bi-star-fill"></i></span></h3>
-                      <p class="fs-7">Call me whenever you can...</p>
-                      <p class="fs-7 text-secondary"><i class="bi bi-clock-fill me-1"></i> 4 Hours Ago</p>
-                    </div>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <img src="./assets/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3" />
-                    </div>
-                    <div class="flex-grow-1">
-                      <h3 class="dropdown-item-title">John Pierce <span class="float-end fs-7 text-secondary"><i class="bi bi-star-fill"></i></span></h3>
-                      <p class="fs-7">I got your message bro</p>
-                      <p class="fs-7 text-secondary"><i class="bi bi-clock-fill me-1"></i> 4 Hours Ago</p>
-                    </div>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <img src="./assets/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 rounded-circle me-3" />
-                    </div>
-                    <div class="flex-grow-1">
-                      <h3 class="dropdown-item-title">Nora Silvester <span class="float-end fs-7 text-warning"><i class="bi bi-star-fill"></i></span></h3>
-                      <p class="fs-7">The subject goes here</p>
-                      <p class="fs-7 text-secondary"><i class="bi bi-clock-fill me-1"></i> 4 Hours Ago</p>
-                    </div>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-              </div>
-            </li>
-
-            <!-- Notifications Dropdown -->
-            <li class="nav-item dropdown">
-              <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                <i class="bi bi-bell-fill"></i>
-                <span class="navbar-badge badge text-bg-warning">15</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item"><i class="bi bi-envelope me-2"></i> 4 new messages <span class="float-end text-secondary fs-7">3 mins</span></a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item"><i class="bi bi-people-fill me-2"></i> 8 friend requests <span class="float-end text-secondary fs-7">12 hours</span></a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item"><i class="bi bi-file-earmark-fill me-2"></i> 3 new reports <span class="float-end text-secondary fs-7">2 days</span></a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-              </div>
-            </li>
-
-            <!-- Fullscreen Toggle -->
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-lte-toggle="fullscreen">
-                <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i>
-                <i data-lte-icon="minimize" class="bi bi-fullscreen-exit d-none"></i>
-              </a>
-            </li>
-
-            <!-- Color Mode Toggle -->
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="#" id="bd-theme" aria-label="Toggle color scheme"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-sun-fill" data-lte-theme-icon="light"></i>
-                <i class="bi bi-moon-fill d-none" data-lte-theme-icon="dark"></i>
-                <i class="bi bi-circle-half d-none" data-lte-theme-icon="auto"></i>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme" style="--bs-dropdown-min-width: 8rem">
-                <li><button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false"><i class="bi bi-sun-fill me-2"></i> Light <i class="bi bi-check-lg ms-auto d-none"></i></button></li>
-                <li><button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false"><i class="bi bi-moon-fill me-2"></i> Dark <i class="bi bi-check-lg ms-auto d-none"></i></button></li>
-                <li><button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true"><i class="bi bi-circle-half me-2"></i> Auto <i class="bi bi-check-lg ms-auto d-none"></i></button></li>
-              </ul>
-            </li>
-
-            <!-- User Menu -->
-            <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img src="./assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User Image" />
-                <span class="d-none d-md-inline">Alexander Pierce</span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <li class="user-header text-bg-primary">
-                  <img src="./assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="User Image" />
-                  <p>Alexander Pierce - Web Developer <small>Member since Nov. 2023</small></p>
-                </li>
-                <li class="user-body">
-                  <div class="row">
-                    <div class="col-4 text-center"><a href="#">Followers</a></div>
-                    <div class="col-4 text-center"><a href="#">Sales</a></div>
-                    <div class="col-4 text-center"><a href="#">Friends</a></div>
-                  </div>
-                </li>
-                <li class="user-footer">
-                  <a href="#" class="btn btn-outline-secondary">Profile</a>
-                  <a href="#" class="btn btn-outline-danger float-end">Sign out</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
+          
         </div>
       </nav>
       <!-- END HEADER -->
@@ -227,76 +103,72 @@
 
         <div class="sidebar-wrapper">
           <nav class="mt-2">
-            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview"
-              role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
-
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
               <li class="nav-item menu-open">
                 <a href="index.html" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>Dashboard</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon bi bi-box-seam-fill"></i>
-                  <p>User Input <i class="nav-arrow bi bi-chevron-right"></i></p>
+                  <i class="nav-icon bi bi-journal-text"></i>
+                  <p>User Input<i class="nav-arrow bi bi-chevron-right"></i></p>
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
                     <a href="user-form.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i><p>User Form</p>
+                      <i class="nav-icon bi bi-person-lines-fill"></i><p>User Form</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="update-weather.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i><p>Update Weather</p>
+                      <i class="nav-icon bi bi-cloud-arrow-up"></i><p>Update Weather</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="view-weather.html" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i><p>View Weather</p>
+                      <i class="nav-icon bi bi-eye"></i><p>View Weather</p>
                     </a>
                   </li>
                 </ul>
               </li>
-
               <li class="nav-item">
                 <a href="weather-prediction.html" class="nav-link">
-                  <i class="nav-icon bi bi-table"></i><p>Prediction</p>
+                  <i class="nav-icon bi bi-graph-up"></i>
+                  <p>Prediction</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="weather-by-day.html" class="nav-link">
-                  <i class="nav-icon bi bi-table"></i><p>Weather by day</p>
+                  <i class="nav-icon bi bi-sun"></i>
+                  <p>Weather by day</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="weather-by-month.html" class="nav-link">
-                  <i class="nav-icon bi bi-table"></i><p>Weather by Month</p>
+                  <i class="nav-icon bi bi-calendar3"></i>
+                  <p>Weather by Month</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="weather-by-region.html" class="nav-link">
-                  <i class="nav-icon bi bi-table"></i><p>Weather by Region</p>
+                  <i class="nav-icon bi bi-globe2"></i>
+                  <p>Weather by Region</p>
                 </a>
               </li>
-
               <li class="nav-item">
                 <a href="charts.html" class="nav-link">
-                  <i class="nav-icon bi bi-table"></i><p>Charts</p>
+                  <i class="nav-icon bi bi-bar-chart-line"></i>
+                  <p>Charts</p>
                 </a>
               </li>
-
               <li class="nav-item">
-                <a href="report.html" class="nav-link">
-                  <i class="nav-icon bi bi-table"></i><p>Reports</p>
+                <a href="reports.html" class="nav-link">
+                  <i class="nav-icon bi bi-file-earmark-text"></i>
+                  <p>Reports</p>
                 </a>
               </li>
-
             </ul>
           </nav>
         </div>
@@ -423,83 +295,11 @@
       </main>
       <!-- END MAIN CONTENT -->
 
-      <!-- Footer -->
-      <footer class="app-footer">
-        <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <strong>Copyright &copy; 2014-2026&nbsp;
-          <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
-        </strong>
-        All rights reserved.
-      </footer>
+            <!-- Info Boxes -->
+        
 
-    </div><!-- end app-wrapper -->
+     
 
-    <!-- ═══════════════════════════════════════════════
-         UPDATE MODAL  (from document 2)
-         ═══════════════════════════════════════════════ -->
-    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title" id="updateModalLabel">
-              <i class="bi bi-pencil-square me-2"></i> Update Weather Record
-            </h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-
-          <div class="modal-body">
-            <p class="text-muted mb-3">Editing record ID: <strong id="modalRowId"></strong></p>
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Precipitation (mm)</label>
-                <input type="number" class="form-control" id="upd_precipitation" placeholder="e.g. 12.5" step="0.1" />
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Maximum Temperature (°C)</label>
-                <input type="number" class="form-control" id="upd_max_temp" placeholder="e.g. 35" step="0.1" />
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Minimum Temperature (°C)</label>
-                <input type="number" class="form-control" id="upd_min_temp" placeholder="e.g. 18" step="0.1" />
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Wind Speed (km/h)</label>
-                <input type="number" class="form-control" id="upd_wind_speed" placeholder="e.g. 20" step="0.1" />
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Year</label>
-                <input type="number" class="form-control" id="upd_year" placeholder="e.g. 2024" />
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Month</label>
-                <input type="number" class="form-control" id="upd_month" placeholder="1 - 12" min="1" max="12" />
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Day</label>
-                <input type="number" class="form-control" id="upd_day" placeholder="1 - 31" min="1" max="31" />
-              </div>
-              <div class="col-md-12">
-                <label class="form-label">Weather</label>
-                <select class="form-select" id="upd_weather">
-                  <option value="">-- Select Weather --</option>
-                  <option value="drizzle">Drizzle</option>
-                  <option value="fog">Fog</option>
-                  <option value="rain">Rain</option>
-                  <option value="snow">Snow</option>
-                  <option value="sun">Sun</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-              <i class="bi bi-x-circle me-1"></i> Cancel
-            </button>
-            <button type="button" class="btn btn-primary" onclick="submitUpdate()">
-              <i class="bi bi-check-circle me-1"></i> Save Changes
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -653,7 +453,7 @@
             $('#example').DataTable();
           }
         } catch (er) {
-          console.log("Error occurred:", er);
+          console.log(`Error occurred: ${er}`);
         }
       };
 

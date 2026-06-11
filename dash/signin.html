@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create an Account</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- LEFT -->
+    <div class="left">
+     
+      <div>
+    
+      </div>
+    </div>
+
+    <!-- VERTICAL DIVIDER -->
+    <div class="divider-v"></div>
+
+    <!-- RIGHT -->
+    <div class="right">
+      
+      <h1 class="form-title">Signin!!</h1>
+      <p class="form-sub">
+        Enter your details below to Login,<br>
+
+      </p>
+
+      <div class="field-wrap">
+        <label class="field-label">Email</label>
+        <div class="input-row">
+          <input type="email" placeholder="hello@example.com" />
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label">Password</label>
+        <div class="input-row">
+          <input type="password" id="pwd" value="mypassword" />
+          <button class="eye-btn" onclick="togglePwd()" aria-label="Toggle password">
+            <i class="ti ti-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <button class="submit-btn">Signin</button>
+
+   
+
+      <div class="social-row">
+      
+        
+  
+      </div>
+
+      <p class="signup-row">
+        Don't have an account? <a href="signup.html">Sign up</a>
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    function togglePwd() {
+      const input = document.getElementById('pwd');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+  </script>
+
+</body>
+</html>
