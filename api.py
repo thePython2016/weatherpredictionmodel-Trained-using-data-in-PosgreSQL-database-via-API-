@@ -311,22 +311,23 @@ class Authenticate(BaseModel):
 @app.post('/authenticate/')
 async def authenticate(cred:Authenticate):
     try:
-        select="select email,pwd from useraccount where email=%s"
+        select="select email,pwd,fname from useraccount where email=%s"
         cursor.execute(select,(cred.email,))
         record=cursor.fetchone()
     except Exception as error:
         raise HTTPException(status_code=500,detail="Server Error")
+    if record is None:
+            raise HTTPException(status_code=401,detail="User not existsss")
     columns=[col[0] for col in cursor.description]
     recordFrame=pd.DataFrame([record],columns=columns)
     recordDict=recordFrame.to_dict(orient="records")[0]
 
-    if record is None:
-            raise HTTPException(status_code=401,detail="User not existsss")
+
     
-    elif not bcrypt.checkpw(cred.password.encode('utf-8'), recordDict["pwd"].encode('utf-8')):
+    if not bcrypt.checkpw(cred.password.encode('utf-8'), recordDict["pwd"].encode('utf-8')):
         raise HTTPException(status_code=401,detail="Incorrect Password")
     else:
-        return JSONResponse(status_code=200,content={"SuccessMessage":"Login Successful","email":recordDict['email'],"Pass":recordDict['pwd']})
+        return JSONResponse(status_code=200,content={"SuccessMessage":"Login Successful","fname":recordDict['fname'],"email":recordDict['email'],"Pass":recordDict['pwd']})
                 # return JSONResponse(status_code=201,content=recordDict)
 
     

@@ -143,8 +143,10 @@
           });
           const status=await response.json()
           if(response.status==200){
-            sessionStorage.setItem("Email",status.email)
+            sessionStorage.setItem("Email",status.email);
+            sessionStorage.setItem("Name",status.fname);
              window.location.href="weather-by-region.html";
+             alert(status.fname)
              
             // alert("user exist")
           }
