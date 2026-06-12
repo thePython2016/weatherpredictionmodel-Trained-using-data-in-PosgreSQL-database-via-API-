@@ -16,6 +16,15 @@
     .field-error.show {
       display: block;
     }
+    .forgot-pwd {
+      text-align: right;
+      margin-top: 6px;
+    }
+    .forgot-pwd a {
+      color: #7F77DD;
+      text-decoration: none;
+      font-size: 12px;
+    }
   </style>
 </head>
 <body>
@@ -54,14 +63,14 @@
         <label class="field-label">Password</label>
         <p class="field-error" id="pwd-error"></p>
         <div class="input-row">
-          <!-- <input type="password" id="pwd"  />
-           <input type="password" id="pwd" placeholder="Enter your password" /> -->
-
            <input type="password" id="pwd" placeholder="Enter your password" />
           <button class="eye-btn" onclick="togglePwd()" aria-label="Toggle password">
             <i class="ti ti-eye"></i>
           </button>
         </div>
+        <p class="forgot-pwd">
+          <a href="forgot-password.html">Forgot password?</a>
+        </p>
       </div>
 
       <button class="submit-btn" id="loginBtn" onclick="login()">Signin</button>

@@ -40,11 +40,11 @@ app.add_middleware(
 )
 # connection
 conn=dbconnector.connect(
-    host="localhost",
-    database="weather_db",
-    password="passcode2000!!!",
-    user="postgres",
-    port=5432,
+    host=os.getenv(host),
+    database=os.getenv(database),
+    password=os.getenv(password),
+    user=os.getenv(user),
+    port=os.getenv(port),
 )
 cursor=conn.cursor()
 # For insert Moddel------------------------------------------***Model-->
