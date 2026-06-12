@@ -5,6 +5,7 @@ import psycopg2 as dbconnector
 from pydantic import BaseModel
 import joblib as job
 import pandas as pd
+import bcrypt
 import numpy as np
 from fastapi.responses import JSONResponse
 import requests
@@ -281,28 +282,59 @@ class useraccount(BaseModel):
     phone:str
     address:str
     pwd: str
-
-@app.post(endpointAccount)
-
-async def accountdata(account:useraccount):
-    try:
-        insert="insert into useraccount(fname,lname,email,phone,address,pwd) values(%s,%s,%s,%s,%s,%s)"
-        values=(account.fname,account.lname,account.email,account.phone,account.address,account.pwd)
-        cursor.execute(insert,values)
-        conn.commit()
-        return JSONResponse (status_code=201,
-                             content={"Success":"Data Sumitted Sucessfully"}
-            
-        )
-
     
+@app.post(endpointAccount)
+async def accountdata(account: useraccount):
+    try:
+        cursor = conn.cursor()  # fresh cursor each request
+
+        # Hash password here, per request
+        hashed_pwd = bcrypt.hashpw(account.pwd.encode('utf-8'), bcrypt.gensalt())
+        hashed_pwd_str = hashed_pwd.decode('utf-8')
+
+        insert = "insert into useraccount(fname,lname,email,phone,address,pwd) values(%s,%s,%s,%s,%s,%s)"
+        values = (account.fname, account.lname, account.email, account.phone, account.address, hashed_pwd_str)
+        cursor.execute(insert, values)
+        conn.commit()
+        return JSONResponse(status_code=201, content={"Success": "Account Successfully Created"})
+
     except Exception as e:
-        conn.rollback() 
-        raise HTTPException(status_code=500,detail=str(e))
+        conn.rollback()
+        raise HTTPException(status_code=501, detail=str(e))
 
    
+# Authentication -----------------------------------------++++++++++++++++++++++++++++----------------------->
+class Authenticate(BaseModel):
+    email:str
+    password: str
 
-# cursor.execute(insert,values)
+@app.post('/authenticate/')
+async def authenticate(cred:Authenticate):
+    try:
+        select="select email,pwd from useraccount where email=%s"
+        cursor.execute(select,(cred.email,))
+        record=cursor.fetchone()
+    except Exception as error:
+        raise HTTPException(status_code=500,detail="Server Error")
+    columns=[col[0] for col in cursor.description]
+    recordFrame=pd.DataFrame([record],columns=columns)
+    recordDict=recordFrame.to_dict(orient="records")[0]
+
+    if record is None:
+            raise HTTPException(status_code=401,detail="User not existsss")
+    
+    elif not bcrypt.checkpw(cred.password.encode('utf-8'), recordDict["pwd"].encode('utf-8')):
+        raise HTTPException(status_code=401,detail="Incorrect Password")
+    else:
+        return JSONResponse(status_code=200,content={"SuccessMessage":"Login Successful","email":recordDict['email'],"Pass":recordDict['pwd']})
+                # return JSONResponse(status_code=201,content=recordDict)
+
+    
+    
+        
+   
+
+
 
 
     # MOUNT BOOTSTRAP

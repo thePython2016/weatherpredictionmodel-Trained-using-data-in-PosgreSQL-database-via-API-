@@ -5,9 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Create an Account</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/sign-up.css"/>
   <style>
-    
+    .field-error {
+      color: #E24B4A;
+      font-size: 11px;
+      margin-bottom: 4px;
+      display: none;
+    }
+    .field-error.show {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -36,22 +44,27 @@
 
       <div class="field-wrap">
         <label class="field-label">Email</label>
+        <p class="field-error" id="email-error"></p>
         <div class="input-row">
-          <input type="email" placeholder="hello@example.com" />
+          <input type="email" id="email" placeholder="hello@example.com" />
         </div>
       </div>
 
       <div class="field-wrap">
         <label class="field-label">Password</label>
+        <p class="field-error" id="pwd-error"></p>
         <div class="input-row">
-          <input type="password" id="pwd" value="mypassword" />
+          <!-- <input type="password" id="pwd"  />
+           <input type="password" id="pwd" placeholder="Enter your password" /> -->
+
+           <input type="password" id="pwd" placeholder="Enter your password" />
           <button class="eye-btn" onclick="togglePwd()" aria-label="Toggle password">
             <i class="ti ti-eye"></i>
           </button>
         </div>
       </div>
 
-      <button class="submit-btn">Signin</button>
+      <button class="submit-btn" id="loginBtn" onclick="login()">Signin</button>
 
    
 
@@ -73,7 +86,84 @@
       const input = document.getElementById('pwd');
       input.type = input.type === 'password' ? 'text' : 'password';
     }
+
+    function showFieldError(fieldId, message) {
+      const errorEl = document.getElementById(`${fieldId}-error`);
+      errorEl.textContent = message;
+      errorEl.classList.add('show');
+    }
+
+    function clearFieldErrors() {
+      document.querySelectorAll('.field-error').forEach(el => {
+        el.textContent = '';
+        el.classList.remove('show');
+      });
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', async() => {
+      clearFieldErrors();
+
+      const email = document.getElementById('email').value.trim();
+      const pwd   = document.getElementById('pwd').value;
+
+      let hasError = false;
+
+      if (!email) {
+        showFieldError('email', 'Email is required');
+        hasError = true;
+      }
+      if (!pwd) {
+        showFieldError('pwd', 'Password is required');
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Both values extracted and valid — proceed (e.g., fetch call here)
+      console.log('Email:', email, 'Password:', pwd);
+      const credentials={
+        email:email,
+        password:pwd
+      }
+      
+      alert(`User Password ${pwd}`)
+     
+        try{
+          const base="http://127.0.0.1:8000"
+          const endPoint="/authenticate/"
+          const response=await fetch(`${base}${endPoint}`,{
+            method:"POST",
+            headers:{
+              "Content-Type":"application/json",
+              
+            },
+            body:JSON.stringify(credentials)
+            
+
+          });
+          const status=await response.json()
+          if(response.status==200){
+            sessionStorage.setItem("Email",status.email)
+             window.location.href="weather-by-region.html";
+             
+            // alert("user exist")
+          }
+          else{
+            document.getElementById("backError").innerHTML=`Errors Occured ${status.detail}`
+            alert(`Error----- Occured ${status.detail.cred['pwd']}`)
+          }
+        }
+        catch(error){
+          document.getElementById("error").innerHTML=`Error Occured ${error}`
+        }
+      });
+    
+    
+  
   </script>
+  <div id="success"></div>
+<div id="backError"></div>
 
 </body>
+
 </html>
