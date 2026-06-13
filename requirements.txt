@@ -51,6 +51,7 @@ django-psdb-engine==1.0.6
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.1
 djoser==2.3.3
+ecdsa==0.19.2
 et_xmlfile==2.0.0
 executing==2.2.1
 fastapi==0.136.3
@@ -146,6 +147,7 @@ pandas==2.3.3
 pandocfilters==1.5.1
 parsel==1.10.0
 parso==0.8.5
+passlib==1.7.4
 patsy==1.0.2
 pillow==12.0.0
 platformdirs==4.5.0
@@ -181,6 +183,8 @@ PySocks==1.7.1
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 python-dotenv==1.0.1
+python-http-client==3.3.7
+python-jose==3.5.0
 python-json-logger==3.2.1
 python-multipart==0.0.9
 python3-openid==3.2.0
@@ -194,12 +198,14 @@ referencing==0.33.0
 requests==2.31.0
 requests-file==3.0.1
 requests-oauthlib==2.0.0
+resend==2.30.1
 retrying==1.4.2
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
 rfc3987-syntax==1.1.0
 rich==14.2.0
 rpds-py==0.28.0
+rsa==4.9.1
 scikit-learn==1.7.2
 scipy==1.16.3
 Scrapy==2.13.3
@@ -207,6 +213,7 @@ scrapy-playwright==0.0.44
 seaborn==0.13.2
 selenium==4.38.0
 Send2Trash==1.8.3
+sendgrid==6.12.5
 service-identity==24.2.0
 setuptools==80.9.0
 six==1.17.0

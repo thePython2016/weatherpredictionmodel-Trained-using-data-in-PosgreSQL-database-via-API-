@@ -5,13 +5,19 @@ import psycopg2 as dbconnector
 from pydantic import BaseModel
 import joblib as job
 import pandas as pd
+from datetime import datetime, timedelta
 import bcrypt
 import numpy as np
+from passlib.hash import bcrypt as pwd_context
 from fastapi.responses import JSONResponse
+# from passlib.hash import bcrypt as pwd_context
 import requests
+import resend
+from fastapi import FastAPI, HTTPException, Request
 import io
 from dotenv import load_dotenv
 import os
+import secrets
 from fastapi import UploadFile, File
 from fastapi import HTTPException
 
@@ -30,6 +36,13 @@ app = FastAPI(
     
     )
 
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc)}
+    )
+
 
 # CORS middleware (allows your frontend to call this API)
 app.add_middleware(
@@ -39,12 +52,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 # connection
+load_dotenv()
 conn=dbconnector.connect(
-    host=os.getenv(host),
-    database=os.getenv(database),
-    password=os.getenv(password),
-    user=os.getenv(user),
-    port=os.getenv(port),
+    host=os.getenv("host"),
+    database=os.getenv("database"),
+    password=os.getenv("password"),
+    user=os.getenv("user"),
+    port=int(os.getenv("port"))
 )
 cursor=conn.cursor()
 # For insert Moddel------------------------------------------***Model-->
@@ -249,7 +263,7 @@ async def predictionInput(userData:predictionData):
 
     
 # Get weather data-----------------------------*******WEAther data************************----------------------->
-load_dotenv()
+
 apiKey=os.getenv("weatherAPIKey")
 Base="https://api.weatherapi.com/v1"
 endpoint="/current.json"
@@ -310,12 +324,16 @@ class Authenticate(BaseModel):
 
 @app.post('/authenticate/')
 async def authenticate(cred:Authenticate):
+    # @app.exception_handler(Exception)
+    # async def global_exception_handler(cred: Authenticate, exc: Exception):
+  
     try:
         select="select email,pwd,fname from useraccount where email=%s"
         cursor.execute(select,(cred.email,))
         record=cursor.fetchone()
     except Exception as error:
-        raise HTTPException(status_code=500,detail="Server Error")
+        # print(f"❌ Error: {error}")  # ✅ must see this in terminal
+        raise HTTPException(status_code=500,detail=str(error))
     if record is None:
             raise HTTPException(status_code=401,detail="User not existsss")
     columns=[col[0] for col in cursor.description]
@@ -324,14 +342,132 @@ async def authenticate(cred:Authenticate):
 
 
     
-    if not bcrypt.checkpw(cred.password.encode('utf-8'), recordDict["pwd"].encode('utf-8')):
-        raise HTTPException(status_code=401,detail="Incorrect Password")
+  # ✅ truncate password to 72 bytes before verifying
+    if not bcrypt.checkpw(cred.password[:72].encode('utf-8'), recordDict["pwd"].encode('utf-8')):
+        raise HTTPException(status_code=401, detail="Incorrect Password")
     else:
         return JSONResponse(status_code=200,content={"SuccessMessage":"Login Successful","fname":recordDict['fname'],"email":recordDict['email'],"Pass":recordDict['pwd']})
                 # return JSONResponse(status_code=201,content=recordDict)
 
     
+
+# Send Reset Link-----------FORGOT PASSWORD- FORM----------------------------------------------------------------------->
+resend.api_key=os.getenv("resendkey")
+senderEmail=os.getenv("sender")
+
+class forgotPass(BaseModel):
+    email:str
+
+@app.post('/forgot-password/')
+async def resetPass(emailaddress:forgotPass):
+    try:
+        selectEmail="select email from useraccount where email=%s"
+        cursor.execute(selectEmail,(emailaddress.email,))
+        fetchOne=cursor.fetchone()
+        
+    except Exception as error:
+        # print(error)
+        raise HTTPException(status_code=500,detail=str(error))
+
+    if fetchOne is None:
+       
+        raise HTTPException(status_code=404,detail="User Associated with that email not exist!!")
+    records=pd.DataFrame(fetchOne,columns=[cols[0] for cols in cursor.description])
+    recordDict=records.to_dict(orient="records")
     
+    # return JSONResponse(status_code=200,content={"Email":recordDict[0]['email']})
+
+     # 1. generate token
+    token  = secrets.token_urlsafe(32)
+    expiry = datetime.utcnow() + timedelta(hours=1)
+    try:
+        update="""update useraccount 
+        set reset_token=%s,
+        reset_token_expiry=%s
+        where email=%s
+
+
+        """
+        cursor.execute(update,(token,expiry,emailaddress.email))
+        conn.commit()
+    except Exception as e:
+        raise HTTPException(status_code=500,detail="Failed to save reset token")
+    else:
+        base_="http://127.0.0.1:8000/dash"
+        resetLink=f"{base_}/reset-password.html/?token={token}"
+ 
+        try:
+            resend.Emails.send({
+                "from": senderEmail,
+                # "to": emailaddress.email,
+                "to": "bitech20th@gmail.com",
+                "subject": "Password Reset Request",
+                "html": f"""
+                    <h2>Password Reset</h2>
+                    <p>Click the link below to reset your password.</p>
+                    <p>This link expires in <strong>1 hour</strong>.</p>
+                    <a href="{resetLink}" style="
+                        background:#7F77DD;
+                        color:white;
+                        padding:10px 20px;
+                        border-radius:6px;
+                        text-decoration:none;
+                    ">Reset My Password</a>
+                    <p style="color:#888; font-size:12px;">
+                        If you didn't request this, ignore this email.
+                    </p>
+                """
+             })
+        except Exception as err:
+            raise HTTPException(status_code=500,detail=str(err))
+        return JSONResponse(status_code=200,content={"Success":"Reset Link sent, check your email","email":emailaddress.email})
+
+    
+    
+    
+  
+# RESET PASSWORD FORM-------------------------------------------------------------------->
+     
+resetendpoint = "/reset-password/"
+class resetPass(BaseModel):
+    password: str
+    token: str
+
+@app.post(resetendpoint)
+async def resetPassword(resetData:resetPass):
+    try:
+        selectToken="select reset_token,pwd from useraccount where reset_token=%s"
+        cursor.execute(selectToken,(resetData.token,))
+        fetchRecord=cursor.fetchone()
+    except Exception as ex:
+        raise HTTPException(status_code=500,detail=str(ex))
+    if fetchRecord is None:
+            raise HTTPException(status_code=404,detail="Not Found")
+    df=pd.DataFrame([fetchRecord],columns=[cols[0] for cols in cursor.description])
+    records=df.to_dict(orient="records")
+    # hashedPassword = bcrypt.hash(resetData.password)  # ✅ hash first
+    hashedPassword = bcrypt.hashpw(resetData.password[:72].encode('utf-8'), bcrypt.gensalt())  
+    hashedPassword = hashedPassword.decode('utf-8')  # convert bytes to string for DB storage
+    
+
+    try:
+        # return JSONResponse(status_code=200,content={"Success":"User Found","token":resetData.token,"pass":records['pwd']})
+            updatePass="""
+            update useraccount set 
+            pwd=%s,reset_token=NULL,reset_token_expiry=NULL
+            where reset_token=%s
+
+
+            """
+            cursor.execute(updatePass,(hashedPassword,resetData.token))
+            conn.commit()
+    except Exception as err:
+        raise HTTPException(status_code=500,detail=str(err))
+    return JSONResponse(status_code=200,content={"Success":"You have successful updated your password"})
+
+
+
+
         
    
 
