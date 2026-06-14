@@ -6,10 +6,13 @@ from pydantic import BaseModel
 import joblib as job
 import pandas as pd
 from datetime import datetime, timedelta
+from fastapi import Cookie
 import bcrypt
 import numpy as np
 from passlib.hash import bcrypt as pwd_context
 from fastapi.responses import JSONResponse
+from jose import JWTError, jwt
+from fastapi import Depends
 # from passlib.hash import bcrypt as pwd_context
 import requests
 import resend
@@ -17,6 +20,8 @@ from fastapi import FastAPI, HTTPException, Request
 import io
 from dotenv import load_dotenv
 import os
+from jose import JWTError, jwt
+from fastapi import Depends, Cookie
 import secrets
 from fastapi import UploadFile, File
 from fastapi import HTTPException
@@ -36,19 +41,13 @@ app = FastAPI(
     
     )
 
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={"detail": str(exc)}
-    )
+# CORS middleware (allows your frontend to call this API)---------------------------->
 
-
-# CORS middleware (allows your frontend to call this API)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
+     allow_credentials=True,                    
     allow_headers=["*"],
 )
 # connection
@@ -61,6 +60,61 @@ conn=dbconnector.connect(
     port=int(os.getenv("port"))
 )
 cursor=conn.cursor()
+
+#Token Validdity Parameters---------- Authentication Parameters----------------------------AUTH Parameters--------------->
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM  = os.getenv("ALGORITHM")
+TOKEN_EXPIRE_MINUTES = int(os.getenv("TOKEN_EXPIRE_MINUTES", 1440))
+
+
+# generate token function------------------TOKEN -----------GENERATION---JWT------->
+
+
+
+def generateToken(data: dict):
+    toEncode = data.copy()
+    
+    # FIX: Use timezone-aware UTC datetime
+    expire = datetime.now(timezone.utc) + timedelta(minutes=TOKEN_EXPIRE_MINUTES)
+    
+    toEncode.update({"exp": expire})
+    token = jwt.encode(toEncode, SECRET_KEY, algorithm=ALGORITHM)
+    return token
+
+#  verify token function-------------TOKEN VERIFICATION------------------------->
+
+def verifyToken(token: str = Cookie(None)):
+    if token is None:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    try:
+        # jwt.decode will now properly check the UTC 'exp' timestamp against current UTC time
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email = payload.get("sub")
+        if email is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        return email
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    
+
+@app.get('/verify-token/')
+async def verifyTokenEndpoint(email: str = Depends(verifyToken)):
+    cursor.execute("SELECT fname FROM useraccount WHERE email=%s", (email,))
+    record = cursor.fetchone()
+    return JSONResponse(status_code=200, content={"email": email, "fname": record[0]})
+
+# -----------------------TOKEN VERI------END------------------------------------->
+
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"detail": str(exc)}
+    )
+
+
+
 # For insert Moddel------------------------------------------***Model-->
 class WeatherData(BaseModel):
 
@@ -268,7 +322,7 @@ apiKey=os.getenv("weatherAPIKey")
 Base="https://api.weatherapi.com/v1"
 endpoint="/current.json"
 @app.get('/current.json')
-def getWeatherdata(region:str):
+def getWeatherdata(region:str, email: str = Depends(verifyToken)):
     url=Base+endpoint
     headers={
         "Accept":"application/json"
@@ -317,7 +371,21 @@ async def accountdata(account: useraccount):
         raise HTTPException(status_code=501, detail=str(e))
 
    
-# Authentication -----------------------------------------++++++++++++++++++++++++++++----------------------->
+# Authentication -----------------------------------------+++TOKEN VERIFICATION BACKEND+++++++++++++++++++++++++----------------------->
+
+def verifyToken(token: str = Cookie(None)):
+    if token is None:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email = payload.get("sub")
+        if email is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        return email
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    
+
 class Authenticate(BaseModel):
     email:str
     password: str
@@ -332,7 +400,7 @@ async def authenticate(cred:Authenticate):
         cursor.execute(select,(cred.email,))
         record=cursor.fetchone()
     except Exception as error:
-        # print(f"❌ Error: {error}")  # ✅ must see this in terminal
+        # print(f"❌ Error: {error}")  
         raise HTTPException(status_code=500,detail=str(error))
     if record is None:
             raise HTTPException(status_code=401,detail="User not existsss")
@@ -340,14 +408,25 @@ async def authenticate(cred:Authenticate):
     recordFrame=pd.DataFrame([record],columns=columns)
     recordDict=recordFrame.to_dict(orient="records")[0]
 
+# String to be sent to generate token---------------------------to be sent to GENERATE TOKEN-------------->
+    token = generateToken({"sub": recordDict['email']})
+
 
     
-  # ✅ truncate password to 72 bytes before verifying
+  #Hashed password
     if not bcrypt.checkpw(cred.password[:72].encode('utf-8'), recordDict["pwd"].encode('utf-8')):
         raise HTTPException(status_code=401, detail="Incorrect Password")
     else:
-        return JSONResponse(status_code=200,content={"SuccessMessage":"Login Successful","fname":recordDict['fname'],"email":recordDict['email'],"Pass":recordDict['pwd']})
+        response= JSONResponse(status_code=200,content={"SuccessMessage":"Login Successful","fname":recordDict['fname'],"email":recordDict['email'],"Pass":recordDict['pwd']})
                 # return JSONResponse(status_code=201,content=recordDict)
+        response.set_cookie(
+        key="token",
+        value=token,
+        httponly=True,
+        samesite="lax",
+        max_age=86400  # 24 hours
+    )
+        return response
 
     
 
@@ -473,6 +552,40 @@ async def resetPassword(resetData:resetPass):
 
 
 
+# TOKEN GENERATION GOES HERE-----------------------------TOKEN---------------------------->
 
-    # MOUNT BOOTSTRAP
-app.mount("/dash", StaticFiles(directory="dash"), name="dash")
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM  = os.getenv("ALGORITHM")
+TOKEN_EXPIRE_MINUTES = int(os.getenv("TOKEN_EXPIRE_MINUTES"))
+
+def generateToken(data: dict):
+    toEncode = data.copy()
+    expire   = datetime.utcnow() + timedelta(minutes=TOKEN_EXPIRE_MINUTES)
+    toEncode.update({"exp": expire})
+    token = jwt.encode(toEncode, SECRET_KEY, algorithm=ALGORITHM)
+    return token
+
+
+# Verify token------------------------*************************-------------------
+@app.get('/verify-token/')
+async def verifyTokenEndpoint(email: str = Depends(verifyToken)):
+    return JSONResponse(status_code=200, content={"email": email})
+
+
+
+
+# Logout---------------------LOGOUT---------------------------------------------->
+@app.post('/logout/')
+async def logout():
+    response = JSONResponse(status_code=200, content={"message": "Logged out"})
+    response.delete_cookie("token")  # ✅ clears the httponly cookie
+    return response
+
+# @app.get("/me/")
+# async def get_me(request: Request):
+#     user = request.session.get("user")  # or however you store session
+#     if not user:
+#         raise HTTPException(status_code=401, detail="Not authenticated")
+#     return {"user": user}
+
+app.mount("/dash", StaticFiles(directory="dash", html=True), name="dash")

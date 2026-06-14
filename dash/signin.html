@@ -53,6 +53,11 @@
   </style>
 </head>
 <body>
+  <script>
+    document.getElementById('pwd').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('loginBtn').click();
+});
+  </script>
 
   <div class="card">
 
@@ -156,6 +161,7 @@
         const response = await fetch(`${base}${endPoint}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",  
           body: JSON.stringify(credentials)
         });
 
@@ -164,6 +170,7 @@
         if (response.status === 200) {
           sessionStorage.setItem("Email", status.email);
           sessionStorage.setItem("Name", status.fname);
+          
           window.location.href = "weather-by-region.html";
           
         } else {

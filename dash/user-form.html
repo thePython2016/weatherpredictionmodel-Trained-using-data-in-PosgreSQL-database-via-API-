@@ -13,6 +13,7 @@
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="./css/adminlte.css" as="style" />
       <link rel="stylesheet" href="css/style.css" />
+      <link rel="stylesheet" href="css/user-profile.css" />
 
     <link rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
@@ -155,9 +156,13 @@
       }
       .csv-preview-table tr:last-child td { border-bottom: none; }
     </style>
+    <script>
+      
+    </script>
   </head>
 
   <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+   <script type="text/javascript" src="token-check.js"></script>
     <div class="app-wrapper">
 
       <!-- HEADER -->
@@ -269,9 +274,58 @@
               </li>
             </ul>
           </nav>
+          <div class="sidebar-profile">
+
+            <!-- Popup Menu (appears above the button) -->
+            <div class="profile-popup" id="profilePopup">
+              <div class="profile-popup-header">
+                <img src="./assets/img/user.png" alt="User Avatar" />
+                <div>
+                  <div class="profile-name"></div>
+                  <div id="user-id"></div>
+                </div>
+              </div>l
+              <ul class="profile-popup-menu">
+                <li>
+                  <a href="profile.html">
+                    <i class="bi bi-person"></i> My Profile
+                  </a>
+                </li>
+                <li>
+                  <a href="settings.html">
+                    <i class="bi bi-gear"></i> Settings
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="bi bi-bell"></i> Notifications
+                  </a>
+                </li>
+                <li><hr class="divider" /></li>
+                <li class="logout">
+                  <a href="logout.html">
+                    <i class="bi bi-box-arrow-right"></i> Log out
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Profile Trigger Button -->
+            <button class="sidebar-profile-btn" id="profileBtn" onclick="toggleProfileMenu()">
+              <img src="./assets/img/user.png" alt="User Avatar" />
+              <span class="profile-name">
+
+
+              </span>
+              <i class="bi bi-three-dots profile-dots"></i>
+            </button>
+
+          </div>
+
         </div>
       </aside>
 
+      
       <!-- MAIN CONTENT -->
       <main class="app-main">
         <div class="app-content-header">

@@ -1,0 +1,151 @@
+/* user profile setting  */-----------------------Profile
+
+      :root {
+        --row-highlight-bg:     #ffeeba;
+        --row-highlight-text:   #000;
+        --row-highlight-border: #d8770d;
+      }
+
+      /* Push profile to bottom of sidebar */
+      .sidebar-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .sidebar-wrapper nav {
+        flex: 1;
+      }
+
+      /* Profile trigger button */
+      .sidebar-profile {
+        padding: 10px 12px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        position: relative;
+      }
+      .sidebar-profile-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px 10px;
+        border-radius: 10px;
+        transition: background 0.15s;
+        text-align: left;
+      }
+      .sidebar-profile-btn:hover {
+        background: rgba(255,255,255,0.08);
+      }
+      .sidebar-profile-btn img {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 2px solid rgba(255,255,255,0.2);
+      }
+      .sidebar-profile-btn .profile-name {
+        flex: 1;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sidebar-profile-btn .profile-dots {
+        color: rgba(255,255,255,0.45);
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+
+      /* Popup menu */
+      .profile-popup {
+        display: none;
+        position: absolute;
+        bottom: calc(100% + 6px);
+        left: 12px;
+        right: 12px;
+        background: #2a2d35;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        z-index: 9999;
+      }
+      .profile-popup.open {
+        display: block;
+      }
+
+      /* Popup header */
+      .profile-popup-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 14px 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+      .profile-popup-header img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(255,255,255,0.2);
+      }
+      .profile-popup-header .popup-name {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #fff;
+      }
+      .profile-popup-header .popup-email {
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.45);
+      }
+
+      /* Popup menu items */
+      .profile-popup-menu {
+        list-style: none;
+        margin: 0;
+        padding: 6px 0;
+      }
+      .profile-popup-menu li a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 14px;
+        font-size: 0.875rem;
+        color: rgba(255,255,255,0.85);
+        text-decoration: none;
+        transition: background 0.12s;
+      }
+      .profile-popup-menu li a:hover {
+        background: rgba(255,255,255,0.07);
+        color: #fff;
+      }
+      .profile-popup-menu li a i {
+        font-size: 1rem;
+        width: 18px;
+        text-align: center;
+        color: rgba(255,255,255,0.5);
+        flex-shrink: 0;
+      }
+      .profile-popup-menu li a:hover i {
+        color: rgba(255,255,255,0.85);
+      }
+      .profile-popup-menu .divider {
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        margin: 5px 0;
+      }
+      .profile-popup-menu .logout a {
+        color: #ff6b6b;
+      }
+      .profile-popup-menu .logout a i {
+        color: #ff6b6b;
+      }
+      .profile-popup-menu .logout a:hover {
+        background: rgba(255, 107, 107, 0.1);
+      }
+    

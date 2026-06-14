@@ -73,6 +73,7 @@
   </head>
 
   <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <script src="token-check.js"></script>
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
       <!--begin::Header-->
@@ -219,11 +220,105 @@
             </ul>
             <!--end::Sidebar Menu-->
           </nav>
+          <!-- User profile section -->
+            <div class="sidebar-profile">
+
+            <!-- Popup Menu (appears above the button) -->
+            <div class="profile-popup" id="profilePopup">
+              <div class="profile-popup-header">
+                <img src="./assets/img/user.png" alt="User Avatar" />
+                <div>
+                  <div class="profile-name"></div>
+                  <div id="user-id"></div>
+                </div>
+              </div>l
+              <ul class="profile-popup-menu">
+                <li>
+                  <a href="profile.html">
+                    <i class="bi bi-person"></i> My Profile
+                  </a>
+                </li>
+                <li>
+                  <a href="settings.html">
+                    <i class="bi bi-gear"></i> Settings
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="bi bi-bell"></i> Notifications
+                  </a>
+                </li>
+                <li><hr class="divider" /></li>
+                <li class="logout">
+                  <a href="logout.html">
+                    <i class="bi bi-box-arrow-right"></i> Log out
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Profile Trigger Button -->
+            <button class="sidebar-profile-btn" id="profileBtn" onclick="toggleProfileMenu()">
+              <img src="./assets/img/user.png" alt="User Avatar" />
+              <span class="profile-name">
+
+
+              </span>
+              <i class="bi bi-three-dots profile-dots"></i>
+            </button>
+
+          </div>
         </div>
         <!--end::Sidebar Wrapper-->
       </aside>
-      <!--end::Sidebar-->
-      <!--begin::App Main-->
+      <div class="sidebar-profile">
+
+            <!-- Popup Menu (appears above the button) -->
+            <div class="profile-popup" id="profilePopup">
+              <div class="profile-popup-header">
+                <img src="./assets/img/user.png" alt="User Avatar" />
+                <div>
+                  <div class="profile-name"></div>
+                  <div id="user-id"></div>
+                </div>
+              </div>
+              <ul class="profile-popup-menu">
+                <li>
+                  <a href="profile.html">
+                    <i class="bi bi-person"></i> My Profile
+                  </a>
+                </li>
+                <li>
+                  <a href="settings.html">
+                    <i class="bi bi-gear"></i> Settings
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="bi bi-bell"></i> Notifications
+                  </a>
+                </li>
+                <li><hr class="divider" /></li>
+                <li class="logout">
+                  <a href="logout.html">
+                    <i class="bi bi-box-arrow-right"></i> Log out
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Profile Trigger Button -->
+            <button class="sidebar-profile-btn" id="profileBtn" onclick="toggleProfileMenu()">
+              <img src="./assets/img/user.png" alt="User Avatar" />
+              <span class="profile-name">
+
+
+              </span>
+              <i class="bi bi-three-dots profile-dots"></i>
+            </button>
+
+          </div>
+      <!--End Profile Section-->
       <main class="app-main">
         <!--begin::App Content Header-->
         <div class="app-content-header">
