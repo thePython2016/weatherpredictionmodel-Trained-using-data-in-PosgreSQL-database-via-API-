@@ -371,3 +371,21 @@ body {
 .sucess:not(:empty) {
   display: block;
 }
+/* Logo Signin & Signout logo */
+.left {
+  position: relative;
+}
+
+.left > div {
+  position: relative; 
+}
+
+.profile-page-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;   
+  height: auto;
+  margin-top: 50px; 
+  margin-left: 5px; 
+}
