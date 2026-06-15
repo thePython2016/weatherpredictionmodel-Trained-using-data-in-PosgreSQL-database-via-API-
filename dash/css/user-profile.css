@@ -46,14 +46,28 @@
         flex-shrink: 0;
         border: 2px solid rgba(255,255,255,0.2);
       }
-      .sidebar-profile-btn .profile-name {
+      .sidebar-profile .profile-name {
         flex: 1;
         font-size: 0.875rem;
         font-weight: 500;
         color: #fff;
+        font-size:14px !important;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color:#ffffff !important;
+      }
+        .sidebar-profile #user-id {
+        flex: 1;
+        font-size: 0.875rem;
+        font-weight: 500;
+        font-size:14px !important;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color:#ffffff !important;
+        text-align:center !important;
       }
       .sidebar-profile-btn .profile-dots {
         color: rgba(255,255,255,0.45);

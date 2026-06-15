@@ -28,10 +28,10 @@
   </head>
 
   <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
-    <script src="token-check.js"></script>
+    <script src="js/token-check.js"></script>
     <div class="app-wrapper">
 
-      <!-- Header — identical to user-form.html -->
+      <!-- Header — identical to weather-input.html -->
       <nav class="app-header navbar navbar-expand bg-body">
         <div class="container-fluid">
           <ul class="navbar-nav">
@@ -62,11 +62,11 @@
         </div>
       </nav>
 
-      <!-- Sidebar — identical to user-form.html -->
+      <!-- Sidebar — identical to weather-input.html -->
       <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <div class="sidebar-brand">
           <a href="./index.html" class="brand-link">
-            <img src="./assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
+            <img src="assets/img/logo.png" alt=" Logo" class="brand-image" />
             <span class="brand-text fw-light">Weather Model</span>
           </a>
         </div>
@@ -86,7 +86,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="user-form.html" class="nav-link">
+                    <a href="weather-input.html" class="nav-link">
                       <i class="nav-icon bi bi-person-lines-fill"></i><p>User Form</p>
                     </a>
                   </li>
@@ -115,7 +115,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="weather-by-month.html" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-calendar3"></i>
                   <p>Weather by Month</p>
                 </a>
@@ -127,14 +127,11 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="charts.html" class="nav-link">
-                  <i class="nav-icon bi bi-bar-chart-line"></i>
+                <a href="#" class="nav-link"><i class="nav-icon bi bi-bar-chart-line"></i>
                   <p>Charts</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="reports.html" class="nav-link">
-                  <i class="nav-icon bi bi-file-earmark-text"></i>
+              <li class="nav-item"><a href="#" class="nav-link"><i class="nav-icon bi bi-file-earmark-text"></i>
                   <p>Reports</p>
                 </a>
               </li>
@@ -210,27 +207,7 @@
                 <div class="card mb-4">
                   <div class="card-header">
                     <h5 class="card-title">Monthly Recap Report</h5>
-                    <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                      </button>
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-tool dropdown-toggle" data-bs-toggle="dropdown">
-                          <i class="bi bi-wrench"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end" role="menu">
-                          <a href="#" class="dropdown-item">Action</a>
-                          <a href="#" class="dropdown-item">Another action</a>
-                          <a href="#" class="dropdown-item">Something else here</a>
-                          <a class="dropdown-divider"></a>
-                          <a href="#" class="dropdown-item">Separated link</a>
-                        </div>
-                      </div>
-                      <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
-                        <i class="bi bi-x-lg"></i>
-                      </button>
-                    </div>
+                    
                   </div>
                   <div class="card-body">
                     <div class="row">
@@ -318,19 +295,7 @@
                     <div class="card direct-chat direct-chat-warning">
                       <div class="card-header">
                         <h3 class="card-title">Direct Chat</h3>
-                        <div class="card-tools">
-                          <span title="3 New Messages" class="badge text-bg-warning">3</span>
-                          <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                            <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                            <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                          </button>
-                          <button type="button" class="btn btn-tool" title="Contacts" data-lte-toggle="chat-pane">
-                            <i class="bi bi-chat-text-fill"></i>
-                          </button>
-                          <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
-                            <i class="bi bi-x-lg"></i>
-                          </button>
-                        </div>
+                        
                       </div>
                       <div class="card-body">
                         <div class="direct-chat-messages">
@@ -397,27 +362,7 @@
                     <div class="card">
                       <div class="card-header">
                         <h3 class="card-title">Latest Members</h3>
-                        <div class="card-tools">
-                          <span class="badge text-bg-danger">8 New Members</span>
-                          <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                            <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                            <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                          </button>
-                          <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
-                            <i class="bi bi-x-lg"></i>
-                          </button>
                         </div>
-                      </div>
-                      <div class="card-body p-0">
-                        <div class="row text-center m-1">
-                          <div class="col-3 p-2"><img class="img-fluid rounded-circle" src="./assets/img/user1-128x128.jpg" alt="User Image" /><a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">Alexander Pierce</a><div class="fs-8">Today</div></div>
-                          <div class="col-3 p-2"><img class="img-fluid rounded-circle" src="./assets/img/user1-128x128.jpg" alt="User Image" /><a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">Norman</a><div class="fs-8">Yesterday</div></div>
-                          <div class="col-3 p-2"><img class="img-fluid rounded-circle" src="./assets/img/user7-128x128.jpg" alt="User Image" /><a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">Jane</a><div class="fs-8">12 Jan</div></div>
-                          <div class="col-3 p-2"><img class="img-fluid rounded-circle" src="./assets/img/user6-128x128.jpg" alt="User Image" /><a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">John</a><div class="fs-8">12 Jan</div></div>
-                          <div class="col-3 p-2"><img class="img-fluid rounded-circle" src="./assets/img/user2-160x160.jpg" alt="User Image" /><a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">Alexander</a><div class="fs-8">13 Jan</div></div>
-                          <div class="col-3 p-2"><img class="img-fluid rounded-circle" src="./assets/img/user5-128x128.jpg" alt="User Image" /><a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">Sarah</a><div class="fs-8">14 Jan</div></div>
-                          <div class="col-3 p-2"><img class="img-fluid rounded-circle" src="./assets/img/user4-128x128.jpg" alt="User Image" /><a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">Nora</a><div class="fs-8">15 Jan</div></div>
-                          <div class="col-3 p-2"><img class="img-fluid rounded-circle" src="./assets/img/user3-128x128.jpg" alt="User Image" /><a class="btn fw-bold fs-7 text-secondary text-truncate w-100 p-0" href="#">Nadia</a><div class="fs-8">15 Jan</div></div>
                         </div>
                       </div>
                       <div class="card-footer text-center">
@@ -431,15 +376,6 @@
                 <div class="card">
                   <div class="card-header">
                     <h3 class="card-title">Latest Orders</h3>
-                    <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                      </button>
-                      <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
-                        <i class="bi bi-x-lg"></i>
-                      </button>
-                    </div>
                   </div>
                   <div class="card-body p-0">
                     <div class="table-responsive">
@@ -489,15 +425,6 @@
                 <div class="card mb-4">
                   <div class="card-header">
                     <h3 class="card-title">Browser Usage</h3>
-                    <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                      </button>
-                      <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
-                        <i class="bi bi-x-lg"></i>
-                      </button>
-                    </div>
                   </div>
                   <div class="card-body">
                     <div class="row">
@@ -517,15 +444,6 @@
                 <div class="card">
                   <div class="card-header">
                     <h3 class="card-title">Recently Added Products</h3>
-                    <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                        <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                        <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                      </button>
-                      <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
-                        <i class="bi bi-x-lg"></i>
-                      </button>
-                    </div>
                   </div>
                   <div class="card-body p-0">
                     <div class="px-2">
@@ -551,10 +469,9 @@
 
       </main>
 
-      <!-- Footer — identical to user-form.html -->
+      <!-- Footer — identical to weather-input.html -->
       <footer class="app-footer">
-        <div class="float-end d-none d-sm-inline">Anything you want</div>
-        <strong>Copyright &copy; 2014-2026&nbsp;<a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.</strong>
+        <strong>Copyright &copy; 2014-2026</strong>
         All rights reserved.
       </footer>
 
@@ -658,3 +575,10 @@
 
   </body>
 </html>
+
+
+
+
+
+
+

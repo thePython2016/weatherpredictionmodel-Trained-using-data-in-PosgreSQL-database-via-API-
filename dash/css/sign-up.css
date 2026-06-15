@@ -4,6 +4,7 @@
 
 * {
   font-family: 'Poppins', sans-serif;
+  font-size: 16px !important;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -201,6 +202,18 @@
     .signup-row a {
       color: #7F77DD;
       text-decoration: none;
+    }
+    #userError{
+      color:#E24B4A;
+      font-size:14px;
+      text-align:center;
+      margin-bottom:10px;
+    }
+    #reset-email-error{
+      color:#E24B4A;
+      font-size:14px;
+      text-align:center;
+      margin-bottom:10px;
     }
 
 

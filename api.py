@@ -115,7 +115,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 
-# For insert Moddel------------------------------------------***Model-->
+# For insert Model------------------------------------------***Model-->
 class WeatherData(BaseModel):
 
     precipitation :float
@@ -403,7 +403,7 @@ async def authenticate(cred:Authenticate):
         # print(f"❌ Error: {error}")  
         raise HTTPException(status_code=500,detail=str(error))
     if record is None:
-            raise HTTPException(status_code=401,detail="User not existsss")
+            raise HTTPException(status_code=401,detail="Incorrect Username or Password")
     columns=[col[0] for col in cursor.description]
     recordFrame=pd.DataFrame([record],columns=columns)
     recordDict=recordFrame.to_dict(orient="records")[0]
@@ -450,7 +450,7 @@ async def resetPass(emailaddress:forgotPass):
 
     if fetchOne is None:
        
-        raise HTTPException(status_code=404,detail="User Associated with that email not exist!!")
+        raise HTTPException(status_code=404,detail="User Associated with email not exist!!")
     records=pd.DataFrame(fetchOne,columns=[cols[0] for cols in cursor.description])
     recordDict=records.to_dict(orient="records")
     
@@ -572,6 +572,43 @@ async def verifyTokenEndpoint(email: str = Depends(verifyToken)):
     return JSONResponse(status_code=200, content={"email": email})
 
 
+# Get data to Dash-------------------------DATA FOR DASHBOARD---------------------------->
+# ──────────────────────────────────────────────────────────────────────────
+class WeatherPrediction(BaseModel):
+    temperature: float
+    precipitation: float
+    wind: float
+    humidity: float
+
+
+
+
+@app.get('/predict', response_model=WeatherPrediction)
+def predictWeather(year: int):
+    select = """
+        select
+            avg(temp_max)     as temperature,
+            avg(precipitation) as precipitation,
+            avg(wind)          as wind
+        from weather_table
+        where year=%s
+    """
+    try:
+        cursor.execute(select, (year,))
+        record = cursor.fetchone()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    if record is None or record[0] is None:
+        raise HTTPException(status_code=404, detail="No data found for that year")
+
+    return WeatherPrediction(
+        temperature=round(float(record[0]), 1),
+        precipitation=round(float(record[1]), 1),
+        wind=round(float(record[2]), 1),
+        humidity=0.0,  # weather_table has no humidity column — adjust if you add one
+    )
+    
 
 
 # Logout---------------------LOGOUT---------------------------------------------->

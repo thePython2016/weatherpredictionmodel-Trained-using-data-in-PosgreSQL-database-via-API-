@@ -76,6 +76,13 @@
       <p class="form-sub">
         Sign in to continue with your account.<br>
       </p>
+ <p  id="userError">
+       
+      </p>
+       <p id="serverError">
+      
+      </p>
+
 
 
       <div class="field-wrap">
@@ -174,12 +181,12 @@
           window.location.href = "weather-by-region.html";
           
         } else {
-          document.getElementById("backError").innerHTML = `Error: ${status.detail}`;
-          alert(status.detail)
+          document.getElementById("userError").innerHTML = ` ${status.detail}`;
+          // alert(status.detail)
         }
 
       } catch (error) {
-        document.getElementById("backError").innerHTML = `Error: ${error.message}`;
+        document.getElementById("serverError").innerHTML = `Error: ${error.message}`;
       }
     });
   </script>

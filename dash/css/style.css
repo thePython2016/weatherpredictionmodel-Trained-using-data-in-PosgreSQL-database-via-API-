@@ -2,6 +2,7 @@
 /* side menu block */
 * {
   font-family: 'Poppins', sans-serif;
+  font-size:16px !important;
 }
 .app-sidebar.bg-body-secondary.shadow{
   background-color: #d8770d !important;
@@ -16,6 +17,17 @@
   padding-top:20px !important;
  font-family: 'Poppins', sans-serif !important;
 
+}
+.app-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidebar-wrapper {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .nav.sidebar-menu.flex-column li a{
   padding-top:20px !important;
@@ -36,6 +48,14 @@
 }
 .container-fluid .nav-item.d-none.d-md-block .nav-link{
   display: none !important;
+}
+
+/* Increase logo size */
+.brand-image {
+  max-width: 100%;
+  height: auto;
+  width: 120px !important;
+  max-height: 120px !important;
 }
 .container-fluid .nav-link .bi.bi-list{
   width: 50px !important;
@@ -92,5 +112,176 @@ background-color:#198754 !important;
  font-family: 'Poppins', sans-serif !important;
  font-size:14px !important;
 }
+.nav-arrow.bi.bi-chevron-right{
+  margin-top:5px !important;
+  /* color:red !important; */
+}
 
+/* logo---------------------------LOGO------------ */
+/* Sidebar logo positioning */
+ 
+      /* Sidebar logo positioning */
+     .sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;      
+  min-height: 7rem;
+  padding: 0.5rem 0;
+  overflow: visible;    
+}
+.sidebar-brand .brand-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100% !important;
+      }
+
+      .sidebar-brand .brand-image {
+        max-height: 150px !important;
+        max-width: 80% !important;
+        width: auto;
+        object-fit: contain;
+        margin-bottom: 20px !important;
+        margin-top: 20px !important;
+        /* margin: 0; */
+      }
+
+      /* Weather summary cards */
+      .weather-card-title {
+        font-weight: 700;
+        font-size: 1.05rem;
+        margin-bottom: 0.65rem;
+        color: #344050;
+      }
+      [data-bs-theme="dark"] .weather-card-title {
+        color: #e9ecef;
+      }
+      .weather-location {
+        font-size: 0.8rem;
+        color: #5f7387;
+        margin-bottom: 0.75rem;
+      }
+      [data-bs-theme="dark"] .weather-location {
+        color: #adb5bd;
+      }
+      .weather-location i {
+        margin-right: 0.25rem;
+      }
+      .weather-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .weather-icon {
+        font-size: 3.25rem;
+        line-height: 1;
+        color: #f4b400;
+      }
+      .weather-icon .bi-cloud-fill {
+        color: #b9c6d3;
+      }
+      .weather-temp {
+        font-size: 2.75rem;
+        font-weight: 700;
+        color: #344050;
+        line-height: 1;
+      }
+      [data-bs-theme="dark"] .weather-temp {
+        color: #f8f9fa;
+      }
+      .weather-condition {
+        font-size: 1rem;
+        color: #5f7387;
+        margin: 0.5rem 0 1rem;
+      }
+      [data-bs-theme="dark"] .weather-condition {
+        color: #ced4da;
+      }
+      .weather-feels-like {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: #5f7387;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--bs-border-color);
+      }
+      [data-bs-theme="dark"] .weather-feels-like {
+        color: #adb5bd;
+      }
+      .weather-feels-like .bi-arrow-clockwise {
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      .highlight-box {
+        background: #e8f1f8;
+        border-radius: 0.75rem;
+        padding: 0.6rem 0.5rem;
+        text-align: center;
+        height: 100%;
+      }
+      [data-bs-theme="dark"] .highlight-box {
+        background: #3a4d61;
+      }
+      .highlight-label {
+        font-size: 0.7rem;
+        color: #8a9aa9;
+        margin-bottom: 0.35rem;
+      }
+      [data-bs-theme="dark"] .highlight-label {
+        color: #adb5bd;
+      }
+      .highlight-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #344050;
+      }
+      [data-bs-theme="dark"] .highlight-value {
+        color: #f8f9fa;
+      }
+      .highlight-value small {
+        font-size: 0.7rem;
+        font-weight: 500;
+      }
+      .highlight-sub {
+        font-size: 0.7rem;
+        color: #9aa9b8;
+      }
+      .highlight-sun {
+        font-size: 0.75rem;
+        color: #344050;
+        margin-top: 0.15rem;
+      }
+      [data-bs-theme="dark"] .highlight-sun {
+        color: #f8f9fa;
+      }
+      .highlight-sun > div {
+        margin-bottom: 0.15rem;
+      }
+      .highlight-sun i {
+        margin-right: 0.25rem;
+      }
+
+      /* Monthly Recap gauge cards */
+      .recap-gauge-card {
+        background: #e8f1f8;
+        border-radius: 0.75rem;
+        padding: 0.75rem 0.5rem;
+        height: 100%;
+      }
+      [data-bs-theme="dark"] .recap-gauge-card {
+        background: #3a4d61;
+      }
+      .recap-gauge-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #344050;
+        margin-top: 0.25rem;
+      }
+      [data-bs-theme="dark"] .recap-gauge-label {
+        color: #f8f9fa;
+      }
+    
 
