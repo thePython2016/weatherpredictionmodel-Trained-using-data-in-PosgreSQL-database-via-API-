@@ -29,7 +29,7 @@ app = FastAPI(
     description="Weather Prediction API"
 )
 
-# Middleware MUST 
+# ✅ Middleware MUST come immediately after app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -78,7 +78,7 @@ def verifyToken(token: str = Cookie(None)):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
 
-# Root redirect to frontend
+# ✅ Root redirect — AFTER middleware, BEFORE mount
 @app.get("/")
 def root():
     return RedirectResponse(url="/dash/index.html")
@@ -408,5 +408,5 @@ async def logout():
     return response
 
 
-#MOUNT DASH STATIC FILES
+#MOUNT
 app.mount("/dash", StaticFiles(directory="dash", html=True), name="dash")
