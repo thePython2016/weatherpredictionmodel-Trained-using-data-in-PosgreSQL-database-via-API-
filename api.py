@@ -32,7 +32,7 @@ app = FastAPI(
 # CORS middleware configuration (Crucial for handling HTTPOnly cookies safely)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:8000","https://your-app.vercel.app"], 
+    allow_origins=["https://weather-application-model.vercel.app","https://weather-application-model.vercel.app"], 
     allow_credentials=True,                    
     allow_methods=["*"],
     allow_headers=["*"],
@@ -359,7 +359,7 @@ async def resetPassRequest(emailaddress: forgotPass):
         raise HTTPException(status_code=500, detail="Failed to save reset token")
 
     resend.api_key = os.getenv("resendkey")
-    resetLink = f"http://127.0.0.1:8000/dash/reset-password.html/?token={token}"
+    resetLink = f"https://weather-application-model.vercel.app/dash/reset-password.html/?token={token}"
     
     try:
         resend.Emails.send({

@@ -194,7 +194,7 @@
       const credentials = { email: email, password: pwd, remember_me: rememberMe };
 
       try {
-        const base     = "http://127.0.0.1:8000";
+        const base     = "https://weather-application-model.vercel.app";
         const endPoint = "/authenticate/";
 
         const response = await fetch(`${base}${endPoint}`, {
