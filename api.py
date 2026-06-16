@@ -26,15 +26,16 @@ encoder = job.load("encoder.joblib")
 
 
 
-@app.get("/")
-def root():
-    return RedirectResponse(url="/dash/index.html")
 
 app = FastAPI(
     title="Weather Prediction API",
     version="1.0.0",
     description="Weather Prediction API"
 )
+
+@app.get("/")
+def root():
+    return RedirectResponse(url="/dash/index.html")
 
 # CORS middleware configuration (Crucial for handling HTTPOnly cookies safely)
 app.add_middleware(
