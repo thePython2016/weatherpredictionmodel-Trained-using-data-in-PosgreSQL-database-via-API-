@@ -30,6 +30,35 @@ app = FastAPI(
 )
 
 
+from fastapi.responses import FileResponse
+
+@app.get("/signin")
+async def signin():
+    return FileResponse("signin.html")
+
+@app.get("/signup")
+async def signup():
+    return FileResponse("signup.html")
+
+@app.get("/forgot-password")
+async def forgot_password():
+    return FileResponse("forgot-password.html")
+
+@app.get("/reset-password")
+async def reset_password():
+    return FileResponse("reset-password.html")
+
+@app.get("/logout")
+async def logout():
+    return FileResponse("logout.html")
+
+@app.get("/profile")
+async def profile():
+    return FileResponse("profile.html")
+
+@app.get("/settings")
+async def settings():
+    return FileResponse("settings.html")
 
 #  Middleware 
 app.add_middleware(
