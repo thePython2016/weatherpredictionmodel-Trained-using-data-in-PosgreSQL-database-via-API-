@@ -16,12 +16,19 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from jose import JWTError, jwt
 from pydantic import BaseModel
+from fastapi.responses import RedirectResponse
 
 # Load models and tracking weights
 model = job.load("model.joblib")
 bounds = job.load("bounds.joblib")
 numberedCols = job.load("numberedCols.joblib")
 encoder = job.load("encoder.joblib")
+
+
+
+@app.get("/")
+def root():
+    return RedirectResponse(url="/dash/index.html")
 
 app = FastAPI(
     title="Weather Prediction API",
