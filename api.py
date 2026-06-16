@@ -29,47 +29,10 @@ app = FastAPI(
     description="Weather Prediction API"
 )
 
-
-from fastapi.responses import FileResponse
-
-@app.get("/signin")
-async def signin():
-    return FileResponse("/dash/signin.html")
-
-@app.get("/signup")
-async def signup():
-    return FileResponse("/dash/signup.html")
-
-@app.get("/forgot-password")
-async def forgot_password():
-    return FileResponse("/dash/forgot-password.html")
-
-@app.get("/reset-password")
-async def reset_password():
-    return FileResponse("/dash/reset-password.html")
-
-@app.get("/logout")
-async def logout():
-    return FileResponse("dash/logout.html")
-
-@app.get("/profile")
-async def profile():
-    return FileResponse("dash/profile.html")
-
-@app.get("/settings")
-async def settings():
-    return FileResponse("dash/settings.html")
-@app.get("/index")
-async def index():
-    return FileResponse("dash/index.html")
-
 #  Middleware 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://weather-prediction-model-bfql.onrender.com",  # Render (backend serves frontend)
-        "https://weather-application-model.vercel.app",        # Vercel frontend
-    ],
+    allow_origins=["http://127.0.0.1:8000","https://your-app.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -112,7 +75,7 @@ def verifyToken(token: str = Cookie(None)):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
 
-# Root redirect 
+# Root redirect — AFTER middleware, 
 @app.get("/")
 def root():
     return RedirectResponse(url="/dash/index.html")
@@ -375,7 +338,7 @@ async def resetPassRequest(emailaddress: forgotPass):
         raise HTTPException(status_code=500, detail="Failed to save reset token")
 
     resend.api_key = os.getenv("resendkey")
-    resetLink = f"https://weather-prediction-model-bfql.onrender.com/dash/reset-password.html?token={token}"
+    resetLink = f"http://127.0.0.1:8000/dash/reset-password.html/?token={token}"
 
     try:
         resend.Emails.send({
@@ -442,5 +405,5 @@ async def logout():
     return response
 
 
-#MOUNT DASH STATIC FILES
+#MOUNT
 app.mount("/dash", StaticFiles(directory="dash", html=True), name="dash")

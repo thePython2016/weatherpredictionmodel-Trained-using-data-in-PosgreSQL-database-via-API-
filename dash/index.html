@@ -52,12 +52,12 @@
               </a>
             </li>
             <li class="nav-item d-none d-md-block">
-              <a href="/index" class="nav-link">
+              <a href="index.html" class="nav-link">
                 <i class="bi bi-grid-1x2 me-1" aria-hidden="true"></i> Live preview
               </a>
             </li>
             <li class="nav-item d-none d-md-block">
-              <a href="/docs/introduction" class="nav-link">
+              <a href="docs/introduction.html" class="nav-link">
                 <i class="bi bi-book me-1" aria-hidden="true"></i> Documentation
               </a>
             </li>
@@ -73,7 +73,7 @@
       <!-- SIDEBAR -->
       <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <div class="sidebar-brand">
-          <a href="/index" class="brand-link">
+          <a href="index.html" class="brand-link">
             <img src="assets/img/logo.png" alt=" Logo" class="brand-image"  />
             <!-- <span class="brand-text fw-light">Prediction Model</span> -->
           </a>
@@ -82,7 +82,7 @@
           <nav class="mt-2">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
               <li class="nav-item menu-open">
-                <a href="/index" class="nav-link active">
+                <a href="index.html" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>Dashboard</p>
                 </a>
@@ -94,36 +94,36 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="/weather-input" class="nav-link">
+                    <a href="weather-input.html" class="nav-link">
                       <i class="nav-icon bi bi-plus-square"></i><p>Add New</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="/update-weather" class="nav-link">
+                    <a href="update-weather.html" class="nav-link">
                       <i class="nav-icon bi bi-pencil-square"></i><p>Update</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="/view-weather" class="nav-link">
+                    <a href="view-weather.html" class="nav-link">
                       <i class="nav-icon bi bi-eye"></i><p>View</p>
                     </a>
                   </li>
                 </ul>
               </li>
               <li class="nav-item">
-                <a href="/weather-prediction" class="nav-link">
+                <a href="weather-prediction.html" class="nav-link">
                   <i class="nav-icon bi bi-graph-up"></i>
                   <p>Prediction</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/weather-by-day" class="nav-link">
+                <a href="weather-by-day.html" class="nav-link">
                   <i class="nav-icon bi bi-sun"></i>
                   <p>Weather by day</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/weather-by-region" class="nav-link">
+                <a href="weather-by-region.html" class="nav-link">
                   <i class="nav-icon bi bi-globe2"></i>
                   <p>Weather by Region</p>
                 </a>
@@ -160,11 +160,11 @@
                 </div>
               </div>
               <ul class="profile-popup-menu">
-                <li><a href="/profile"><i class="bi bi-person"></i> My Profile</a></li>
-                <li><a href="/settings"><i class="bi bi-gear"></i> Settings</a></li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> My Profile</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Settings</a></li>
                 <li><a href="#"><i class="bi bi-bell"></i> Notifications</a></li>
                 <li><hr class="divider" /></li>
-                <li class="logout"><a href="/logout"><i class="bi bi-box-arrow-right"></i> Log out</a></li>
+                <li class="logout"><a href="logout.html"><i class="bi bi-box-arrow-right"></i> Log out</a></li>
               </ul>
             </div>
 
@@ -561,7 +561,7 @@
 
     <!-- Predict weather for selected year and populate Monthly Recap cards -->
     <script>
-      const PREDICTION_API_BASE = "https://weather-prediction-model-bfql.onrender.com";
+      const PREDICTION_API_BASE = "http://127.0.0.1:8000";
       const PREDICTION_ENDPOINT = "/predict";
 
       async function fetchPredictedWeather(year) {
@@ -603,7 +603,7 @@
 
     <!-- Fetch weather data from Backend -->
     <script>
-      const WEATHER_API_BASE = "https://weather-prediction-model-bfql.onrender.com";
+      const WEATHER_API_BASE = "http://127.0.0.1:8000";
       const WEATHER_ENDPOINT = "/current.json";
 
       async function fetchWeather(region) {
