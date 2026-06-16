@@ -12,20 +12,16 @@ import resend
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from jose import JWTError, jwt
 from pydantic import BaseModel
-from fastapi.responses import RedirectResponse
 
-# Load models and tracking weights
-model = job.load("model.joblib")
-bounds = job.load("bounds.joblib")
+# Load models
+model       = job.load("model.joblib")
+bounds      = job.load("bounds.joblib")
 numberedCols = job.load("numberedCols.joblib")
-encoder = job.load("encoder.joblib")
-
-
-
+encoder     = job.load("encoder.joblib")
 
 app = FastAPI(
     title="Weather Prediction API",
@@ -33,15 +29,14 @@ app = FastAPI(
     description="Weather Prediction API"
 )
 
-@app.get("/")
-def root():
-    return RedirectResponse(url="/dash/index.html")
-
-# CORS middleware configuration (Crucial for handling HTTPOnly cookies safely)
+#  Middleware 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://weather-prediction-model-bfql.onrender.com","https://weather-prediction-model-bfql.onrender.com"], 
-    allow_credentials=True,                    
+    allow_origins=[
+        "https://weather-prediction-model-bfql.onrender.com",  # Render (backend serves frontend)
+        "https://weather-application-model.vercel.app",        # Vercel frontend
+    ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -56,21 +51,20 @@ conn = dbconnector.connect(
 )
 cursor = conn.cursor()
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
+SECRET_KEY           = os.getenv("SECRET_KEY")
+ALGORITHM            = os.getenv("ALGORITHM")
 TOKEN_EXPIRE_MINUTES = int(os.getenv("TOKEN_EXPIRE_MINUTES", 1440))
 
 
-# JWT Generation Token Utility
+# JWT Generation
 def generateToken(data: dict):
     toEncode = data.copy()
     expire = datetime.now(timezone.utc) + timedelta(minutes=TOKEN_EXPIRE_MINUTES)
     toEncode.update({"exp": expire})
-    token = jwt.encode(toEncode, SECRET_KEY, algorithm=ALGORITHM)
-    return token
+    return jwt.encode(toEncode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-# JWT Middleware Dependency Validation 
+# JWT Validation
 def verifyToken(token: str = Cookie(None)):
     if token is None:
         raise HTTPException(status_code=401, detail="Not authenticated")
@@ -84,6 +78,12 @@ def verifyToken(token: str = Cookie(None)):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
 
+# Root redirect 
+@app.get("/")
+def root():
+    return RedirectResponse(url="/dash/index.html")
+
+
 @app.get('/verify-token/')
 async def verifyTokenEndpoint(email: str = Depends(verifyToken)):
     cursor.execute("SELECT fname FROM useraccount WHERE email=%s", (email,))
@@ -94,10 +94,7 @@ async def verifyTokenEndpoint(email: str = Depends(verifyToken)):
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={"detail": str(exc)}
-    )
+    return JSONResponse(status_code=500, content={"detail": str(exc)})
 
 
 # --- DATA SCHEMAS ---
@@ -108,27 +105,27 @@ class WeatherData(BaseModel):
     windSpeed: float
     year: int
     month: int
-    day: int 
+    day: int
     weather: str
 
 class updateData(BaseModel):
     precipitation: float
-    max_temp: float    
-    min_temp: float   
-    wind_speed: float     
-    year: int    
-    month: int     
-    day: int  
-    weather: str   
+    max_temp: float
+    min_temp: float
+    wind_speed: float
+    year: int
+    month: int
+    day: int
+    weather: str
 
 class predictionData(BaseModel):
     Precipitation: float
-    Temp_Max: float    
-    Temp_Min: float   
-    Wind: float     
-    Year: int    
-    Month: int     
-    Day: int  
+    Temp_Max: float
+    Temp_Min: float
+    Wind: float
+    Year: int
+    Month: int
+    Day: int
 
 class useraccount(BaseModel):
     fname: str
@@ -141,7 +138,7 @@ class useraccount(BaseModel):
 class Authenticate(BaseModel):
     email: str
     password: str
-    remember_me: bool = False  # Added remember_me schema tracking parameter
+    remember_me: bool = False
 
 class forgotPass(BaseModel):
     email: str
@@ -157,17 +154,19 @@ class WeatherPrediction(BaseModel):
     humidity: float
 
 
-# --- CORE ROUTING SERVICES ---
+# --- ROUTES ---
 
 @app.patch('/weather-data/{id}/')
 def updateWeather(id: int, update: updateData):
+    if update.min_temp > update.max_temp:
+        raise HTTPException(status_code=400, detail="Max Temp must be greater than Min Temp")
     query = """UPDATE weather_table SET 
         precipitation=%s, temp_max=%s, temp_min=%s, wind=%s, year=%s, month=%s, day=%s, weather=%s 
         WHERE id=%s"""
-    if update.min_temp > update.max_temp:
-        raise HTTPException(status_code=400, detail="Max Temp must be greater than Min Temp")
     try:
-        cursor.execute(query, (update.precipitation, update.max_temp, update.min_temp, update.wind_speed, update.year, update.month, update.day, update.weather, id))
+        cursor.execute(query, (update.precipitation, update.max_temp, update.min_temp,
+                               update.wind_speed, update.year, update.month, update.day,
+                               update.weather, id))
         conn.commit()
         return {"message": "updated"}
     except Exception as e:
@@ -176,10 +175,11 @@ def updateWeather(id: int, update: updateData):
 
 @app.post('/user-data')
 async def weatherData(data: WeatherData):
-    insert = "INSERT INTO weather_table (precipitation,temp_max,temp_min,wind,year,month,day,weather) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
-    values = (data.precipitation, data.tempMax, data.tempMin, data.windSpeed, data.year, data.month, data.day, data.weather)
     if data.tempMax < data.tempMin:
         raise HTTPException(status_code=400, detail="Max Temp must be greater than Min Temp")
+    insert = "INSERT INTO weather_table (precipitation,temp_max,temp_min,wind,year,month,day,weather) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+    values = (data.precipitation, data.tempMax, data.tempMin, data.windSpeed,
+              data.year, data.month, data.day, data.weather)
     try:
         cursor.execute(insert, values)
         conn.commit()
@@ -212,10 +212,10 @@ async def upload(file: UploadFile = File(...)):
         VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"""
     file_content = await file.read()
     uploadedFile = pd.read_csv(io.BytesIO(file_content))
-
     try:
         for i, records in uploadedFile.iterrows():
-            values = (records['Precipitation'], records['Temp_Max'], records['Temp_Min'], records['Wind'], records['Year'], records['Month'], records['Day'], records['Weather'])
+            values = (records['Precipitation'], records['Temp_Max'], records['Temp_Min'],
+                      records['Wind'], records['Year'], records['Month'], records['Day'], records['Weather'])
             cursor.execute(insertUploaded, values)
         conn.commit()
         return {"Message": "Added Successfully"}
@@ -227,12 +227,12 @@ async def upload(file: UploadFile = File(...)):
 async def predictionInput(userData: predictionData):
     df = pd.DataFrame({
         "precipitation": [userData.Precipitation],
-        "temp_max": [userData.Temp_Max],
-        "temp_min": [userData.Temp_Min],
-        "wind": [userData.Wind],
-        "year": [userData.Year],
-        "month": [userData.Month],
-        "day": [userData.Day],  
+        "temp_max":      [userData.Temp_Max],
+        "temp_min":      [userData.Temp_Min],
+        "wind":          [userData.Wind],
+        "year":          [userData.Year],
+        "month":         [userData.Month],
+        "day":           [userData.Day],
     })
     for cols in numberedCols:
         df[cols] = df[cols].clip(lower=bounds[cols]['Lower'], upper=bounds[cols]['Upper'])
@@ -243,7 +243,7 @@ async def predictionInput(userData: predictionData):
 
 @app.get('/current.json')
 def getLiveWeatherdata(region: str, email: str = Depends(verifyToken)):
-    url = f"https://api.weatherapi.com/v1/current.json"
+    url = "https://api.weatherapi.com/v1/current.json"
     params = {"key": os.getenv("weatherAPIKey"), "q": region}
     try:
         response = requests.get(url, params=params)
@@ -257,21 +257,19 @@ async def accountdata(account: useraccount):
     try:
         hashed_pwd = bcrypt.hashpw(account.pwd.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         insert = "INSERT INTO useraccount(fname,lname,email,phone,address,pwd) VALUES(%s,%s,%s,%s,%s,%s)"
-        cursor.execute(insert, (account.fname, account.lname, account.email, account.phone, account.address, hashed_pwd))
+        cursor.execute(insert, (account.fname, account.lname, account.email,
+                                account.phone, account.address, hashed_pwd))
         conn.commit()
         return JSONResponse(status_code=201, content={"Success": "Account Successfully Created"})
     except Exception as e:
         conn.rollback()
         raise HTTPException(status_code=500, detail=str(e))
-    
-# refresh token created-----------------------***********************************-----------------
+
 
 def create_refresh_token_string() -> str:
-    # refresh token string------------------------------REFRESH TOKEN-------------------------------
     return secrets.token_urlsafe(32)
 
 
-# --- AUTHENTICATION ENDPOINT (REMEMBER ME ENGINE) ---REMBER ME ENGINE-----------------***********************************-----------------
 @app.post('/authenticate/')
 async def authenticate(cred: Authenticate):
     try:
@@ -282,67 +280,42 @@ async def authenticate(cred: Authenticate):
 
     if record is None:
         raise HTTPException(status_code=401, detail="Incorrect Username or Password")
-        
+
     columns = [col[0] for col in cursor.description]
     recordDict = dict(zip(columns, record))
-    # recordDict = pd.DataFrame([record], columns=columns).to_dict(orient="records")[0]
 
     if not bcrypt.checkpw(cred.password[:72].encode('utf-8'), recordDict["pwd"].encode('utf-8')):
         raise HTTPException(status_code=401, detail="Incorrect Password")
-    
-    # Lifespans for Database & Cookies are determined by the "Remember Me" checkbox on the frontend-----***
+
     if cred.remember_me:
-        refresh_cookie_max_age = 60 * 60 * 24 * 30  # Browser keeps cookie for 30 Days
+        refresh_cookie_max_age = 60 * 60 * 24 * 30
         db_lifespan_days = 30
     else:
-        refresh_cookie_max_age = None  # None turns it into a pure Session Cookie (dies on tab close)
+        refresh_cookie_max_age = None
         db_lifespan_days = 1
-    
 
-    token = generateToken({"sub": recordDict['email']})
-    refresh_token = create_refresh_token_string() # Secure random string
+    token         = generateToken({"sub": recordDict['email']})
+    refresh_token = create_refresh_token_string()
 
-
-    #  Save to your new user_sessions table ---
     try:
         expires_at = datetime.utcnow() + timedelta(days=db_lifespan_days)
         cursor.execute(
-            """
-            INSERT INTO user_sessions (user_email, refresh_token, expires_at) 
-            VALUES (%s, %s, %s)
-            """,
+            "INSERT INTO user_sessions (user_email, refresh_token, expires_at) VALUES (%s, %s, %s)",
             (recordDict['email'], refresh_token, expires_at)
         )
+        conn.commit()
     except Exception as db_error:
-        # Prevents leaking raw SQL errors to frontend while maintaining debugging logs
-        print(f"Database Error: {db_error}") 
+        print(f"Database Error: {db_error}")
         raise HTTPException(status_code=500, detail="Failed to establish secure session state.")
-    
 
-    response = JSONResponse(status_code=200, content={"SuccessMessage": "Login Successful", "fname": recordDict['fname'], "email": recordDict['email']})
-
-
-    #  Set separate rules for Access vs Refresh cookies ---
-    # The short-lived access token (Always kept short to protect the account)
-    response.set_cookie(
-        key="token",
-        value=token,
-        httponly=True,
-        samesite="lax",
-        max_age=1800,  # 30 Minutes max lifespan
-        secure=False   # Remember to change to True when moving to live HTTPS production
+    response = JSONResponse(
+        status_code=200,
+        content={"SuccessMessage": "Login Successful", "fname": recordDict['fname'], "email": recordDict['email']}
     )
-    
-   # 2. The Remember Me refresh token (Saves the stateful link to your table)
-    response.set_cookie(
-        key="refresh_token",
-        value=refresh_token,
-        httponly=True,
-        samesite="lax",
-        max_age=refresh_cookie_max_age, 
-        secure=False   
-    )
-    
+    response.set_cookie(key="token", value=token, httponly=True, samesite="none",
+                        max_age=1800, secure=True)
+    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True,
+                        samesite="none", max_age=refresh_cookie_max_age, secure=True)
     return response
 
 
@@ -356,29 +329,30 @@ async def resetPassRequest(emailaddress: forgotPass):
 
     if fetchOne is None:
         raise HTTPException(status_code=404, detail="User Associated with email does not exist!!")
-        
-    token = secrets.token_urlsafe(32)
+
+    token  = secrets.token_urlsafe(32)
     expiry = datetime.now(timezone.utc) + timedelta(hours=1)
-    
+
     try:
-        cursor.execute("UPDATE useraccount SET reset_token=%s, reset_token_expiry=%s WHERE email=%s", (token, expiry, emailaddress.email))
+        cursor.execute("UPDATE useraccount SET reset_token=%s, reset_token_expiry=%s WHERE email=%s",
+                       (token, expiry, emailaddress.email))
         conn.commit()
     except Exception:
         raise HTTPException(status_code=500, detail="Failed to save reset token")
 
     resend.api_key = os.getenv("resendkey")
-    resetLink = f"https://weather-prediction-model-bfql.onrender.com/dash/reset-password.html/?token={token}"
-    
+    resetLink = f"https://weather-prediction-model-bfql.onrender.com/dash/reset-password.html?token={token}"
+
     try:
         resend.Emails.send({
             "from": os.getenv("sender"),
-            "to": "bitech20th@gmail.com",
+            "to": emailaddress.email,
             "subject": "Password Reset Request",
             "html": f'<h2>Password Reset</h2><p>Click below to reset your password within 1 hour.</p><a href="{resetLink}">Reset My Password</a>'
         })
     except Exception as err:
         raise HTTPException(status_code=500, detail=str(err))
-        
+
     return JSONResponse(status_code=200, content={"Success": "Reset Link sent", "email": emailaddress.email})
 
 
@@ -389,25 +363,28 @@ async def resetPassword(resetData: resetPass):
         fetchRecord = cursor.fetchone()
     except Exception as ex:
         raise HTTPException(status_code=500, detail=str(ex))
-        
+
     if fetchRecord is None:
         raise HTTPException(status_code=404, detail="Token Not Found")
-        
+
     hashedPassword = bcrypt.hashpw(resetData.password[:72].encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
     try:
-        cursor.execute("UPDATE useraccount SET pwd=%s, reset_token=NULL, reset_token_expiry=NULL WHERE reset_token=%s", (hashedPassword, resetData.token))
+        cursor.execute(
+            "UPDATE useraccount SET pwd=%s, reset_token=NULL, reset_token_expiry=NULL WHERE reset_token=%s",
+            (hashedPassword, resetData.token)
+        )
         conn.commit()
     except Exception as err:
         raise HTTPException(status_code=500, detail=str(err))
+
     return JSONResponse(status_code=200, content={"Success": "You have successfully updated your password"})
 
 
 @app.get('/predict', response_model=WeatherPrediction)
 def predictWeather(year: int):
-    select = "SELECT avg(temp_max), avg(precipitation), avg(wind) FROM weather_table WHERE year=%s"
     try:
-        cursor.execute(select, (year,))
+        cursor.execute("SELECT avg(temp_max), avg(precipitation), avg(wind) FROM weather_table WHERE year=%s", (year,))
         record = cursor.fetchone()
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -426,8 +403,10 @@ def predictWeather(year: int):
 @app.post('/logout/')
 async def logout():
     response = JSONResponse(status_code=200, content={"message": "Logged out"})
-    response.delete_cookie("token")  
+    response.delete_cookie("token")
+    response.delete_cookie("refresh_token")
     return response
 
-app.mount("/dash", StaticFiles(directory="dash", html=True), name="dash")
 
+#MOUNT DASH STATIC FILES
+app.mount("/dash", StaticFiles(directory="dash", html=True), name="dash")
