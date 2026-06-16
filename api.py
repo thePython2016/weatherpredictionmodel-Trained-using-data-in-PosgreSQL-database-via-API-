@@ -50,18 +50,18 @@ async def reset_password():
 
 @app.get("/logout")
 async def logout():
-    return FileResponse("/dash/logout.html")
+    return FileResponse("dash/logout.html")
 
 @app.get("/profile")
 async def profile():
-    return FileResponse("/dash/profile.html")
+    return FileResponse("dash/profile.html")
 
 @app.get("/settings")
 async def settings():
-    return FileResponse("/dash/settings.html")
+    return FileResponse("dash/settings.html")
 @app.get("/index")
 async def index():
-    return FileResponse("/dash/index.html")
+    return FileResponse("dash/index.html")
 
 #  Middleware 
 app.add_middleware(
