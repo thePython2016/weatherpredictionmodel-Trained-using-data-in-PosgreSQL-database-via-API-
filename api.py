@@ -34,31 +34,34 @@ from fastapi.responses import FileResponse
 
 @app.get("/signin")
 async def signin():
-    return FileResponse("dash/signin.html")
+    return FileResponse("/dash/signin.html")
 
 @app.get("/signup")
 async def signup():
-    return FileResponse("dash/signup.html")
+    return FileResponse("/dash/signup.html")
 
 @app.get("/forgot-password")
 async def forgot_password():
-    return FileResponse("dash/forgot-password.html")
+    return FileResponse("/dash/forgot-password.html")
 
 @app.get("/reset-password")
 async def reset_password():
-    return FileResponse("dash/reset-password.html")
+    return FileResponse("/dash/reset-password.html")
 
 @app.get("/logout")
 async def logout():
-    return FileResponse("dash/logout.html")
+    return FileResponse("/dash/logout.html")
 
 @app.get("/profile")
 async def profile():
-    return FileResponse("dash/profile.html")
+    return FileResponse("/dash/profile.html")
 
 @app.get("/settings")
 async def settings():
-    return FileResponse("dash/settings.html")
+    return FileResponse("/dash/settings.html")
+@app.get("/index")
+async def index():
+    return FileResponse("/dash/index.html")
 
 #  Middleware 
 app.add_middleware(
