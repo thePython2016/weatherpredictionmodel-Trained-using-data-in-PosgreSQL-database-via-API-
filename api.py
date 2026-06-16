@@ -29,6 +29,22 @@ app = FastAPI(
     description="Weather Prediction API"
 )
 
+# --- MIDDLEWARE TO HIDE .HTML EXTENSIONS ---
+@app.middleware("http")
+async def hide_html_extensions(request: Request, call_next):
+    path = request.url.path
+    
+    # Check if the request is targeting an API endpoint or static asset file
+    if not path.startswith("/api") and "." not in path.split("/")[-1]:
+        # Construct the expected path inside your frontend templates directory
+        potential_html_file = f"templates{path}.html" if path != "/" else "templates/index.html"
+        
+        if os.path.exists(potential_html_file):
+            return FileResponse(potential_html_file)
+            
+    response = await call_next(request)
+    return response
+
 #  Middleware 
 app.add_middleware(
     CORSMiddleware,
