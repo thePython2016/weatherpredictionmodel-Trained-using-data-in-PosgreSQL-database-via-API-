@@ -561,7 +561,7 @@
 
     <!-- Predict weather for selected year and populate Monthly Recap cards -->
     <script>
-      const PREDICTION_API_BASE = "http://127.0.0.1:8000";
+      const PREDICTION_API_BASE = "https://weather-prediction-model-bfql.onrender.com";
       const PREDICTION_ENDPOINT = "/predict";
 
       async function fetchPredictedWeather(year) {
@@ -603,7 +603,7 @@
 
     <!-- Fetch weather data from Backend -->
     <script>
-      const WEATHER_API_BASE = "http://127.0.0.1:8000";
+      const WEATHER_API_BASE = "https://weather-prediction-model-bfql.onrender.com";
       const WEATHER_ENDPOINT = "/current.json";
 
       async function fetchWeather(region) {

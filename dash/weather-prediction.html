@@ -621,7 +621,7 @@
         };
 
         try {
-          const response = await fetch("http://127.0.0.1:8000/prediction/", {
+          const response = await fetch("https://weather-prediction-model-bfql.onrender.com/prediction/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userData)
@@ -736,7 +736,7 @@
         formData.append('file', selectedUploadFile);
 
         try {
-          const response = await fetch('http://127.0.0.1:8000/prediction/upload/', {
+          const response = await fetch('https://weather-prediction-model-bfql.onrender.com/prediction/upload/', {
             method: 'POST',
             body: formData,
           });
