@@ -12,7 +12,7 @@ import resend
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request, Depends, Cookie, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, RedirectResponse, FileResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from jose import JWTError, jwt
 from pydantic import BaseModel
@@ -33,8 +33,8 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://weather-prediction-model-bfql.onrender.com",
-        "https://weather-application-model.vercel.app",
+        "https://weather-prediction-model-bfql.onrender.com",  # Render (backend serves frontend)
+        "https://weather-application-model.vercel.app",        # Vercel frontend
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -78,69 +78,10 @@ def verifyToken(token: str = Cookie(None)):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
 
-# Root redirect
+# Root redirect 
 @app.get("/")
 def root():
-    return RedirectResponse(url="/dash/index")
-
-
-# --- CLEAN URL ROUTES (no .html in browser) ---
-
-@app.get("/dash/index")
-def index_page():
-    return FileResponse("dash/index.html")
-
-@app.get("/dash/login")
-def login_page():
-    return FileResponse("dash/login.html")
-
-@app.get("/dash/register")
-def register_page():
-    return FileResponse("dash/register.html")
-
-@app.get("/dash/profile")
-def profile_page():
-    return FileResponse("dash/profile.html")
-
-@app.get("/dash/settings")
-def settings_page():
-    return FileResponse("dash/settings.html")
-
-@app.get("/dash/logout")
-def logout_page():
-    return FileResponse("dash/logout.html")
-
-@app.get("/dash/weather-input")
-def weather_input_page():
-    return FileResponse("dash/weather-input.html")
-
-@app.get("/dash/update-weather")
-def update_weather_page():
-    return FileResponse("dash/update-weather.html")
-
-@app.get("/dash/view-weather")
-def view_weather_page():
-    return FileResponse("dash/view-weather.html")
-
-@app.get("/dash/weather-prediction")
-def weather_prediction_page():
-    return FileResponse("dash/weather-prediction.html")
-
-@app.get("/dash/weather-by-day")
-def weather_by_day_page():
-    return FileResponse("dash/weather-by-day.html")
-
-@app.get("/dash/weather-by-region")
-def weather_by_region_page():
-    return FileResponse("dash/weather-by-region.html")
-
-@app.get("/dash/forgot-password")
-def forgot_password_page():
-    return FileResponse("dash/forgot-password.html")
-
-@app.get("/dash/reset-password")
-def reset_password_page():
-    return FileResponse("dash/reset-password.html")
+    return RedirectResponse(url="/dash/index.html")
 
 
 @app.get('/verify-token/')
@@ -400,7 +341,7 @@ async def resetPassRequest(emailaddress: forgotPass):
         raise HTTPException(status_code=500, detail="Failed to save reset token")
 
     resend.api_key = os.getenv("resendkey")
-    resetLink = f"https://weather-prediction-model-bfql.onrender.com/dash/reset-password?token={token}"
+    resetLink = f"https://weather-prediction-model-bfql.onrender.com/dash/reset-password.html?token={token}"
 
     try:
         resend.Emails.send({
@@ -467,5 +408,5 @@ async def logout():
     return response
 
 
-# MOUNT DASH STATIC FILES
+#MOUNT DASH STATIC FILES
 app.mount("/dash", StaticFiles(directory="dash", html=True), name="dash")
