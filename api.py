@@ -29,10 +29,13 @@ app = FastAPI(
     description="Weather Prediction API"
 )
 
-#  Middleware 
+# Middleware MUST 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:8000","https://your-app.vercel.app"],
+    allow_origins=[
+        "https://weather-prediction-model-bfql.onrender.com",  # Render (backend serves frontend)
+        "https://weather-application-model.vercel.app",        # Vercel frontend
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -75,7 +78,7 @@ def verifyToken(token: str = Cookie(None)):
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
 
-# Root redirect — AFTER middleware, 
+# Root redirect to frontend
 @app.get("/")
 def root():
     return RedirectResponse(url="/dash/index.html")
@@ -338,7 +341,7 @@ async def resetPassRequest(emailaddress: forgotPass):
         raise HTTPException(status_code=500, detail="Failed to save reset token")
 
     resend.api_key = os.getenv("resendkey")
-    resetLink = f"http://127.0.0.1:8000/dash/reset-password.html/?token={token}"
+    resetLink = f"https://weather-prediction-model-bfql.onrender.com/dash/reset-password.html?token={token}"
 
     try:
         resend.Emails.send({
@@ -405,5 +408,5 @@ async def logout():
     return response
 
 
-#MOUNT
+#MOUNT DASH STATIC FILES
 app.mount("/dash", StaticFiles(directory="dash", html=True), name="dash")
