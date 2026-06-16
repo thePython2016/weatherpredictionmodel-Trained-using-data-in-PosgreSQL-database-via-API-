@@ -1,3 +1,5 @@
+
+
 function toggleProfileMenu() {
   const popup = document.getElementById("profilePopup");
   if (popup) popup.classList.toggle("open");
@@ -12,7 +14,7 @@ document.addEventListener("click", function (event) {
   }
 });
 
-// Helper function to handle unauthorized state cleanly
+// If token expires — Redirect to signin page and hide content
 function handleUnauthorized() {
   document.body.style.setProperty("display", "none", "important");
   window.location.replace("/dash/signin.html");

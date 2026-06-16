@@ -26,12 +26,10 @@
     <!--end::Primary Meta Tags-->
 
     <!--begin::Accessibility Features-->
-    <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="./css/adminlte.css" as="style" />
-      <link rel="stylesheet" href="css/style.css" />
-      <link rel="stylesheet" href="css/user-profile.css" />
-
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/user-profile.css" />
     <!--end::Accessibility Features-->
 
     <!--begin::Fonts-->
@@ -93,7 +91,6 @@
                 <i class="bi bi-list"></i>
               </a>
             </li>
-
             <li class="nav-item d-none d-md-block">
               <a href="./index.html" class="nav-link">
                 <i class="bi bi-grid-1x2 me-1" aria-hidden="true"></i>
@@ -110,18 +107,12 @@
           <!--end::Start Navbar Links-->
 
           <!--begin::End Navbar Links-->
-          </li>
-            <!--end::Color Mode Toggle-->
-
+          <ul class="navbar-nav ms-auto">
             <!--begin::User Menu Dropdown-->
-            <!--end::User Image-->
-                <!--begin::Menu Body-->
-                <li class="user-body">
-                  <!--begin::Row-->
-                  <div class="row">
-                    <div class="col-4 text-center">                </li>
-                <!--end::Menu Footer-->
-              </ul>
+            <li class="user-body">
+              <div class="row">
+                <div class="col-4 text-center"></div>
+              </div>
             </li>
             <!--end::User Menu Dropdown-->
           </ul>
@@ -130,25 +121,20 @@
         <!--end::Container-->
       </nav>
       <!--end::Header-->
+
       <!--begin::Sidebar-->
       <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
-          <!--begin::Brand Link-->
           <a href="index.html" class="brand-link">
-            <!--begin::Brand Image-->
-            <img src="assets/img/logo.png" alt=" Logo" class="brand-image" />
-            <!--end::Brand Image-->
+            <img src="assets/img/logo.png" alt="Logo" class="brand-image" />
           </a>
-          <!--end::Brand Link-->
         </div>
         <!--end::Sidebar Brand-->
+
         <!--begin::Sidebar Wrapper-->
         <div class="sidebar-wrapper">
           <nav class="mt-2">
-            <!-- Docs CTA -->
-       
-
             <!--begin::Sidebar Menu-->
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
               <li class="nav-item menu-open">
@@ -157,7 +143,7 @@
                   <p>Dashboard</p>
                 </a>
               </li>
-             <li class="nav-item">
+              <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon bi bi-cloud-fill"></i>
                   <p>Weather Input<i class="nav-arrow bi bi-chevron-right"></i></p>
@@ -221,9 +207,8 @@
           </nav>
 
           <!-- User profile section -->
-            <div class="sidebar-profile">
-
-            <!-- Popup Menu (appears above the button) -->
+          <div class="sidebar-profile">
+            <!-- Popup Menu -->
             <div class="profile-popup" id="profilePopup">
               <div class="profile-popup-header">
                 <img src="./assets/img/user.png" alt="User Avatar" />
@@ -231,28 +216,14 @@
                   <div class="profile-name"></div>
                   <div id="user-id"></div>
                 </div>
-              </div>l
+              </div>
               <ul class="profile-popup-menu">
-                <li>
-                  <a href="profile.html">
-                    <i class="bi bi-person"></i> My Profile
-                  </a>
-                </li>
-                <li>
-                  <a href="settings.html">
-                    <i class="bi bi-gear"></i> Settings
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="bi bi-bell"></i> Notifications
-                  </a>
-                </li>
+                <li><a href="profile.html"><i class="bi bi-person"></i> My Profile</a></li>
+                <li><a href="settings.html"><i class="bi bi-gear"></i> Settings</a></li>
+                <li><a href="#"><i class="bi bi-bell"></i> Notifications</a></li>
                 <li><hr class="divider" /></li>
                 <li class="logout">
-                  <a href="logout.html">
-                    <i class="bi bi-box-arrow-right"></i> Log out
-                  </a>
+                  <a href="logout.html"><i class="bi bi-box-arrow-right"></i> Log out</a>
                 </li>
               </ul>
             </div>
@@ -260,18 +231,15 @@
             <!-- Profile Trigger Button -->
             <button class="sidebar-profile-btn" id="profileBtn" onclick="toggleProfileMenu()">
               <img src="./assets/img/user.png" alt="User Avatar" />
-              <span class="profile-name">
-
-
-              </span>
+              <span class="profile-name"></span>
               <i class="bi bi-three-dots profile-dots"></i>
             </button>
-
           </div>
         </div>
         <!--end::Sidebar Wrapper-->
       </aside>
       <!--end::Sidebar-->
+
       <!--begin::App Main-->
       <main class="app-main">
         <!--begin::App Content Header-->
@@ -288,19 +256,27 @@
             </div>
           </div>
         </div>
+        <!--end::App Content Header-->
+
+        <!--begin::App Content-->
         <div class="app-content">
           <div class="container-fluid">
-            <!-- Info Boxes -->
-          <div><hr></div>
+            <div><hr></div>
 
             <!-- Weather Data Table -->
             <div class="row">
               <div class="col-md-12">
                 <div class="card user-form-card">
-                  <div class="card-header"><h3 class="card-title">Weather Input Form</h3></div>
+                  <div class="card-header"><h3 class="card-title">View Weather Input</h3></div>
                   <div class="card-body">
+
+                    <!-- ── ERROR BANNER (hidden by default) ── -->
+                    <div id="fetch-error" class="alert alert-danger d-none" role="alert">
+                      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                      <span id="fetch-error-msg">Failed to load weather data.</span>
+                    </div>
+
                     <table id="example" class="table table-striped">
-                      <div id="connected"></div>
                       <thead>
                         <tr>
                           <th>Precipitation (mm)</th>
@@ -313,7 +289,15 @@
                           <th>Weather</th>
                         </tr>
                       </thead>
-                      <tbody></tbody>
+                      <tbody>
+                        <!-- Loading placeholder shown while fetch is in-flight -->
+                        <tr id="loading-row">
+                          <td colspan="8" class="text-center py-3">
+                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            Loading weather data&hellip;
+                          </td>
+                        </tr>
+                      </tbody>
                       <tfoot>
                         <tr>
                           <th>Precipitation</th>
@@ -327,10 +311,12 @@
                         </tr>
                       </tfoot>
                     </table>
+
                   </div>
                 </div>
               </div>
             </div>
+            <!--end::Weather Data Table-->
 
           </div>
           <!--end::Container-->
@@ -338,93 +324,60 @@
         <!--end::App Content-->
       </main>
       <!--end::App Main-->
+
       <!--begin::Footer-->
       <footer class="app-footer">
-        <!--begin::To the end-->
-        <!--end::To the end-->
-        <!--begin::Copyright-->
-        <strong>
-          Copyright &copy; 2014-2026</strong>
+        <strong>Copyright &copy; 2026</strong>
         All rights reserved.
-        <!--end::Copyright-->
       </footer>
       <!--end::Footer-->
     </div>
     <!--end::App Wrapper-->
-    <!--begin::Script-->
-    <!--begin::Third Party Plugin(OverlayScrollbars)-->
+
+    <!--begin::Scripts-->
+
+    <!-- OverlayScrollbars -->
     <script
       src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
       crossorigin="anonymous"
     ></script>
-    <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
+
+    <!-- Popper + Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <!-- AdminLTE -->
     <script src="./js/adminlte.js"></script>
-    <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
+
+    <!-- OverlayScrollbars configure -->
     <script>
       const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-      const Default = {
-        scrollbarTheme: 'os-theme-light',
-        scrollbarAutoHide: 'leave',
-        scrollbarClickScroll: true,
-      };
       document.addEventListener('DOMContentLoaded', function () {
         const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-
-        // Disable OverlayScrollbars on mobile devices to prevent touch interference
         const isMobile = window.innerWidth <= 992;
-
-        if (
-          sidebarWrapper &&
-          OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined &&
-          !isMobile
-        ) {
+        if (sidebarWrapper && OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined && !isMobile) {
           OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-            scrollbars: {
-              theme: Default.scrollbarTheme,
-              autoHide: Default.scrollbarAutoHide,
-              clickScroll: Default.scrollbarClickScroll,
-            },
+            scrollbars: { theme: 'os-theme-light', autoHide: 'leave', clickScroll: true },
           });
         }
       });
     </script>
-    <!--end::OverlayScrollbars Configure--><!--begin::Color Mode Toggle (#6010)-->
+
+    <!-- Color Mode Toggle -->
     <script>
       (() => {
         'use strict';
-
         const STORAGE_KEY = 'lte-theme';
-
         const getStoredTheme = () => localStorage.getItem(STORAGE_KEY);
         const setStoredTheme = (theme) => localStorage.setItem(STORAGE_KEY, theme);
-
         const prefersDark = () => globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        const getPreferredTheme = () => {
-          const stored = getStoredTheme();
-          if (stored) return stored;
-          return prefersDark() ? 'dark' : 'light';
-        };
-
+        const getPreferredTheme = () => { const s = getStoredTheme(); return s ? s : prefersDark() ? 'dark' : 'light'; };
         const setTheme = (theme) => {
           const resolved = theme === 'auto' ? (prefersDark() ? 'dark' : 'light') : theme;
           document.documentElement.setAttribute('data-bs-theme', resolved);
         };
-
         setTheme(getPreferredTheme());
-
         const showActiveTheme = (theme) => {
-          // Highlight the active dropdown option
           document.querySelectorAll('[data-bs-theme-value]').forEach((el) => {
             el.classList.remove('active');
             el.setAttribute('aria-pressed', 'false');
@@ -438,17 +391,14 @@
             const check = active.querySelector('.bi-check-lg');
             if (check) check.classList.remove('d-none');
           }
-          // Sync the topbar trigger icon
           document.querySelectorAll('[data-lte-theme-icon]').forEach((icon) => {
             icon.classList.toggle('d-none', icon.dataset.lteThemeIcon !== theme);
           });
         };
-
         globalThis.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
           const stored = getStoredTheme();
           if (!stored || stored === 'auto') setTheme(getPreferredTheme());
         });
-
         document.addEventListener('DOMContentLoaded', () => {
           showActiveTheme(getPreferredTheme());
           document.querySelectorAll('[data-bs-theme-value]').forEach((toggle) => {
@@ -462,9 +412,6 @@
         });
       })();
     </script>
-    <!--end::Color Mode Toggle-->
-
-    <!-- OPTIONAL SCRIPTS -->
 
     <!-- apexcharts -->
     <script
@@ -473,166 +420,8 @@
       crossorigin="anonymous"
     ></script>
 
-    <script>
-      // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
-      // IT'S ALL JUST JUNK FOR DEMO
-      // ++++++++++++++++++++++++++++++++++++++++++
-
-      /* apexcharts
-       * -------
-       * Here we will create a few charts using apexcharts
-       */
-
-      //-----------------------
-      // - MONTHLY SALES CHART -
-      //-----------------------
-
-      const sales_chart_options = {
-        series: [
-          {
-            name: 'Digital Goods',
-            data: [28, 48, 40, 19, 86, 27, 90],
-          },
-          {
-            name: 'Electronics',
-            data: [65, 59, 80, 81, 56, 55, 40],
-          },
-        ],
-        chart: {
-          height: 180,
-          type: 'area',
-          toolbar: {
-            show: false,
-          },
-        },
-        legend: {
-          show: false,
-        },
-        colors: ['#0d6efd', '#20c997'],
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: 'smooth',
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: [
-            '2023-01-01',
-            '2023-02-01',
-            '2023-03-01',
-            '2023-04-01',
-            '2023-05-01',
-            '2023-06-01',
-            '2023-07-01',
-          ],
-        },
-        tooltip: {
-          x: {
-            format: 'MMMM yyyy',
-          },
-        },
-      };
-
-      const sales_chart = new ApexCharts(
-        document.querySelector('#sales-chart'),
-        sales_chart_options,
-      );
-      sales_chart.render();
-
-      //---------------------------
-      // - END MONTHLY SALES CHART -
-      //---------------------------
-
-      function createSparklineChart(selector, data) {
-        const options = {
-          series: [{ data }],
-          chart: {
-            type: 'line',
-            width: 150,
-            height: 30,
-            sparkline: {
-              enabled: true,
-            },
-          },
-          colors: ['var(--bs-primary)'],
-          stroke: {
-            width: 2,
-          },
-          tooltip: {
-            fixed: {
-              enabled: false,
-            },
-            x: {
-              show: false,
-            },
-            y: {
-              title: {
-                formatter() {
-                  return '';
-                },
-              },
-            },
-            marker: {
-              show: false,
-            },
-          },
-        };
-
-        const chart = new ApexCharts(document.querySelector(selector), options);
-        chart.render();
-      }
-
-      const table_sparkline_1_data = [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54];
-      const table_sparkline_2_data = [12, 56, 21, 39, 73, 45, 64, 52, 36, 59, 44];
-      const table_sparkline_3_data = [15, 46, 21, 59, 33, 15, 34, 42, 56, 19, 64];
-      const table_sparkline_4_data = [30, 56, 31, 69, 43, 35, 24, 32, 46, 29, 64];
-      const table_sparkline_5_data = [20, 76, 51, 79, 53, 35, 54, 22, 36, 49, 64];
-      const table_sparkline_6_data = [5, 36, 11, 69, 23, 15, 14, 42, 26, 19, 44];
-      const table_sparkline_7_data = [12, 56, 21, 39, 73, 45, 64, 52, 36, 59, 74];
-
-      createSparklineChart('#table-sparkline-1', table_sparkline_1_data);
-      createSparklineChart('#table-sparkline-2', table_sparkline_2_data);
-      createSparklineChart('#table-sparkline-3', table_sparkline_3_data);
-      createSparklineChart('#table-sparkline-4', table_sparkline_4_data);
-      createSparklineChart('#table-sparkline-5', table_sparkline_5_data);
-      createSparklineChart('#table-sparkline-6', table_sparkline_6_data);
-      createSparklineChart('#table-sparkline-7', table_sparkline_7_data);
-
-      //-------------
-      // - PIE CHART -
-      //-------------
-
-      const pie_chart_options = {
-        series: [700, 500, 400, 600, 300, 100],
-        chart: {
-          type: 'donut',
-          // Pin an explicit height to avoid an ApexCharts ResizeObserver feedback
-          // loop on browser zoom (most visible on Edge). Fixes #6019.
-          height: 350,
-        },
-        labels: ['Chrome', 'Edge', 'FireFox', 'Safari', 'Opera', 'IE'],
-        dataLabels: {
-          enabled: false,
-        },
-        colors: ['#0d6efd', '#20c997', '#ffc107', '#d63384', '#6f42c1', '#adb5bd'],
-      };
-
-      const pie_chart = new ApexCharts(document.querySelector('#pie-chart'), pie_chart_options);
-      pie_chart.render();
-
-      //-----------------
-      // - END PIE CHART -
-      //-----------------
-    </script>
-    <!--end::Script-->
-
-    <!-- DataTables JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-5mIrk25O04FkBxY3RV+G/v7MiwY+3wSWc4HIpma07HI="
-      crossorigin="anonymous"
-    ></script>
+    <!-- jQuery + Bootstrap bundle + DataTables -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-5mIrk25O04FkBxY3RV+G/v7MiwY+3wSWc4HIpma07HI=" crossorigin="anonymous"></script>
     <script>
       if (!window.jQuery) {
         document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"><\/script>');
@@ -642,40 +431,64 @@
     <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.8/js/dataTables.bootstrap5.js"></script>
 
-    <!-- Fetch weather data -->
+    <!-- ══════════════════════════════════════════════════
+         OPTIMISED FETCH + TABLE POPULATION
+         Key changes vs original:
+           1. DocumentFragment  – all rows built off-DOM,
+                                  single appendChild = single reflow/paint
+           2. createElement     – no innerHTML HTML-parser overhead per row
+           3. textContent       – XSS-safe, faster than innerHTML
+           4. Loading spinner   – immediate user feedback
+           5. Error banner      – non-blocking UI error instead of alert()
+           6. DataTables init   – called only after tbody is fully populated
+    ════════════════════════════════════════════════════ -->
     <script>
       const getData = async () => {
+        const tbody      = document.querySelector('#example tbody');
+        const errorBanner = document.getElementById('fetch-error');
+        const errorMsg    = document.getElementById('fetch-error-msg');
+        const fields      = ['1', '2', '3', '4', '5', '6', '7', '8'];
+
         try {
-          const response = await fetch("http://127.0.0.1:8000/weather-data/", {
-            method: "GET",
-          });
-          if (response.ok) {
-            const result = await response.json();
-            let rows = "";
-            for (let key of result) {
-              rows += `<tr>
-                <td>${key['1']}</td>
-                <td>${key['2']}</td>
-                <td>${key['3']}</td>
-                <td>${key['4']}</td>
-                <td>${key['5']}</td>
-                <td>${key['6']}</td>
-                <td>${key['7']}</td>
-                <td>${key['8']}</td>
-              </tr>`;
+          const response = await fetch('http://127.0.0.1:8000/weather-data/', { method: 'GET' });
+
+          if (!response.ok) throw new Error(`Server responded with status ${response.status}`);
+
+          const result = await response.json();
+
+          // Build every row inside a DocumentFragment (lives off-DOM).
+          // Zero layout thrashing — the browser sees ONE DOM mutation below.
+          const fragment = document.createDocumentFragment();
+
+          for (const key of result) {
+            const tr = document.createElement('tr');
+            for (const field of fields) {
+              const td = document.createElement('td');
+              td.textContent = key[field] ?? '';   // textContent: safe + fast
+              tr.appendChild(td);
             }
-            document.getElementsByTagName("tbody")[0].innerHTML = rows;
-            $('#example').DataTable();
+            fragment.appendChild(tr);
           }
-        } catch (er) {
-          alert("Error occurred: " + er);
+
+          // Single write → single reflow → single paint
+          tbody.innerHTML = '';           // remove loading spinner row
+          tbody.appendChild(fragment);
+
+          // Initialise DataTables only after the DOM is fully populated
+          $('#example').DataTable();
+
+        } catch (err) {
+          // Remove spinner and show a non-blocking error banner
+          tbody.innerHTML = '';
+          errorMsg.textContent = `Failed to load weather data: ${err.message}`;
+          errorBanner.classList.remove('d-none');
+          console.error('Weather data fetch error:', err);
         }
       };
+
+      // Kick off as soon as the script runs (scripts are at bottom of <body>)
       getData();
     </script>
+    <!--end::Scripts-->
   </body>
-  <!--end::Body-->
 </html>
-
-
-
