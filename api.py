@@ -27,12 +27,18 @@ app = FastAPI(
     title="Weather Prediction API",
     version="1.0.0",
     description="Weather Prediction API"
+    redoc_url=None,
+    docs_url=None,
+    openapi_url=None
 )
 
-# ✅ Middleware MUST come immediately after app = FastAPI()
+#   Middleware MUST 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://weather-prediction-model-bfql.onrender.com"],
+    allow_origins=[
+        "https://weather-prediction-model-bfql.onrender.com",  # Render (backend serves frontend)
+        # "https://weather-application-model.vercel.app",        # Vercel frontend
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
